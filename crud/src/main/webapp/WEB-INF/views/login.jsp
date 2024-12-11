@@ -16,12 +16,11 @@
 			<div class="mb-3">
 				<label for="username" class="form-label">Username</label> <input
 					type="text" class="form-control" id="username" name="username"
-					required>
+					value="%{username}" required>
 			</div>
 			<div class="mb-3">
 				<label for="password" class="form-label">Password</label> <input
-					type="password" class="form-control" id="password" name="password"
-					required>
+					type="password" class="form-control" id="password" name="password">
 			</div>
 
 			<div class="checkbox mb-3">
@@ -29,7 +28,13 @@
 					로그인 상태 유지 </label>
 			</div>
 
+			<!-- 에러 메시지 표시 -->
+			<c:if test="${not empty errorMessage}">
+				<div class="alert alert-danger" role="alert">${errorMessage}</div>
+			</c:if>
+
 			<button type="submit" class="btn btn-primary">Login</button>
+
 		</form>
 	</div>
 </body>
