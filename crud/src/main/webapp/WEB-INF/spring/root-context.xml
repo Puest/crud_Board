@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: 애플리케이션 전역에서 공유되는 빈(Bean)을 정의 → 데이터베이스 연결 설정, 서비스 빈, 리포지토리 빈 등을 이곳에서 설정 -->
+		
+</beans>
