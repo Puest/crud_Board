@@ -10,29 +10,20 @@
 	rel="stylesheet">
 </head>
 <body>
-	<div class="container">
-		<h2 class="h3">Login</h2>
+	<div class="container mt-5">
+		<h2 class="h2 text-center mb-3">Login</h2>
 		<form action="/login" method="post">
-			<div class="mb-3">
-				<label for="username" class="form-label">Username</label> <input
-					type="text" class="form-control" id="username" name="username"
-					value="%{username}" required>
+			<div class="form-floating mb-3">
+				<input type="text" class="form-control" id="username"
+					name="username" placeholder="아이디"> <label
+					for="username">아이디</label>
 			</div>
-			<div class="mb-3">
-				<label for="password" class="form-label">Password</label> <input
-					type="password" class="form-control" id="password" name="password">
+			<div class="form-floating mb-3">
+				<input type="password" class="form-control" id="password"
+					name="password" placeholder="비밀번호"> <label
+					for="password" class="form-label">비밀번호</label>
 			</div>
-
-			<div class="checkbox mb-3">
-				<input type="checkbox" value="remember-me"> <label>
-					로그인 상태 유지 </label>
-			</div>
-
-			<!-- 에러 메시지 표시 -->
-			<c:if test="${not empty errorMessage}">
-				<div class="alert alert-danger" role="alert">${errorMessage}</div>
-			</c:if>
-
+			
 			<button type="submit" class="btn btn-primary">Login</button>
 
 		</form>

@@ -2,7 +2,38 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-	<!-- Root Context: 애플리케이션 전역에서 공유되는 빈(Bean)을 정의 → 데이터베이스 연결 설정, 서비스 빈, 리포지토리 빈 등을 이곳에서 설정 -->
-		
+
+	<!-- Root Context: 애플리케이션 전역에서 공유되는 빈(Bean)을 정의 → 데이터베이스 연결 설정, 서비스 빈, 리포지토리 
+		빈 등을 이곳에서 설정 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="com.mysql.cj.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/member?serverTimezone=UTC&amp;useSSL=false" />
+		<property name="username" value="spring" />
+		<property name="password" value="spring1234" />
+	</bean>
+
+	<!-- SqlSessionFactory: DataSource를 참조해서 MyBatis와 MySQL 서버를 연동 SQL의 실행도 
+		가능 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- mybatis-config: SQL Mapping 프레임워크로 별도의 설정 파일 -->
+		<property name="configLocation"
+			value="classpath:/mybatis-config.xml" />
+		<!-- Mapper: MyBatis에서 SQL 문을 저장 -->
+		<property name="mapperLocations"
+			value="classpath:mappers/**/*Mapper.xml" />
+	</bean>
+
+	<!-- sqlSessionTemplate: 데이터베이스의 연결과 종료를 자동으로 해주고, 트랜잭션 관리 및 쓰레드 처리 안정성 보장 -->
+	<bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+	</bean>
+
 </beans>
