@@ -34,10 +34,10 @@
 		class="com.withfirst.crud.interceptor.LoginInterceptor" />
 
 	<!-- Interceptor 등록/설정 -->
-	<interceptors>
+	<!-- <interceptors>
 		<interceptor>
 			<mapping path="/**" />
 			<beans:ref bean="LoginInterceoter" />
 		</interceptor>
-	</interceptors>
+	</interceptors> -->
 </beans:beans>
