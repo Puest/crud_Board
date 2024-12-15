@@ -30,7 +30,7 @@
 			<c:forEach var="boardVO" items="${memberList}">
 				<tr>
 					<td>${boardVO.board_no}</td>
-					<td><a href="/board/read?bno=${boardVO.board_no}"
+					<td><a href="/board/read?board_no=${boardVO.board_no}"
 						class="text-decoration-none">${boardVO.title}</a></td>
 					<td>${boardVO.writer}</td>
 					<td>${boardVO.updated_at}</td>
@@ -42,10 +42,11 @@
 		<div class="text-end">
 			<a href="/board/register" class="btn btn-primary">새 글 작성</a>
 		</div>
+
 	</div>
 
 	<!-- Bootstrap JS -->
 	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

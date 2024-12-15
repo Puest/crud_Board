@@ -1,4 +1,4 @@
-package com.withfirst.crud;
+package com.withfirst.crud.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -35,12 +35,12 @@ public class BoardController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGET() throws Exception {
-		logger.info("register get.....");
+		logger.info("Register GET...");
 	}
 		
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerPOST(BoardVO boardVO, RedirectAttributes redirectAttributes) throws Exception {
-		logger.info("register post.....");
+		logger.info("register POST...");
 		logger.info("board.toString()");
 		
 		boardService.create(boardVO);
@@ -52,7 +52,7 @@ public class BoardController {
 	
 	@RequestMapping(value = "/success", method = RequestMethod.GET)
 	public void success(Model model) throws Exception{
-		logger.info("Complete Register");
+		logger.info("register Success");
 	}
 	
 	@RequestMapping(value = "/allList", method = RequestMethod.GET)
@@ -60,6 +60,13 @@ public class BoardController {
 		logger.info("show all list");
 		List<BoardVO> members = boardService.allList();
 		model.addAttribute("memberList", members);
+	}
+	
+	@RequestMapping(value = "/read", method = RequestMethod.GET)
+	public void read(@RequestParam("board_no")Integer board_no, Model model) throws Exception {
+		logger.info("Read GET...");
+		BoardVO boardVO = boardService.read(board_no);
+		model.addAttribute(boardVO);
 	}
 	
 //	private static final String ADMIN_ID = "admin";
