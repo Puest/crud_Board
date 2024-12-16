@@ -25,12 +25,12 @@ public class MemberDAOTest {
 		memberVO.setPassword("Kamo1234");
 		memberVO.setEmail("Kamo@withfirst.com");
 
-		memberDAO.insertMember(memberVO);
+		memberDAO.create(memberVO);
 	}
 
 	@Test
 	public void selectMembertTest() throws Exception {
-		MemberVO memberVO = memberDAO.selectMember("Kamo");
+		MemberVO memberVO = memberDAO.read("Kamo");
 		System.out.println(memberVO.getSeq() + " / " + memberVO.getUsername() + " / " + memberVO.getPassword() + " / "
 				+ memberVO.getEmail());
 	}

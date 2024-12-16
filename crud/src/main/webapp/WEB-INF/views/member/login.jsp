@@ -12,19 +12,21 @@
 <body>
 	<div class="container mt-5">
 		<h2 class="h2 text-center mb-3">Login</h2>
-		<form action="/login" method="post">
+		<form role="form" method="post">
 			<div class="form-floating mb-3">
 				<input type="text" class="form-control" id="username"
-					name="username" placeholder="아이디"> <label
-					for="username">아이디</label>
+					name="username" placeholder="아이디"> <label for="username">아이디</label>
 			</div>
 			<div class="form-floating mb-3">
 				<input type="password" class="form-control" id="password"
-					name="password" placeholder="비밀번호"> <label
-					for="password" class="form-label">비밀번호</label>
+					name="password" placeholder="비밀번호"> <label for="password"
+					class="form-label">비밀번호</label>
 			</div>
-			
-			<button type="submit" class="btn btn-primary">Login</button>
+
+			<p class="text-center mt-3">
+				<button type="submit" class="btn btn-primary">로그인</button>
+				<a href="/member/join" class="btn btn-secondary">회원가입</a>
+			</p>
 
 		</form>
 	</div>

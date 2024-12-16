@@ -28,17 +28,17 @@
 					rows="5" placeholder="내용을 입력하세요" required></textarea>
 			</div>
 
-			<!-- 사용자 등록 -->
+			<!-- 사용자 자동 등록(변경 비활성) -->
 			<div class="mb-3">
-				<label for="writer" class="form-label">관리자</label> <input
+				<label for="writer" class="form-label">작성자</label> <input
 					type="text" class="form-control" id="writer" name="writer"
-					placeholder="관리자를 입력하세요" required>
+					value="${sessionScope.loginUser.username}" readonly>
 			</div>
 
 			<!-- 버튼 -->
 			<div class="text-center">
 				<button type="submit" class="btn btn-primary">등록</button>
-				<button type="reset" class="btn btn-secondary">취소</button>
+				<a href= "allList" class="btn btn-secondary"> 취소</a>
 			</div>
 		</form>
 	</div>

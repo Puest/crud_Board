@@ -15,16 +15,16 @@ public class MemberDAOImpl implements MemberDAO {
 	private SqlSession sqlSession;
 
 	private static String NameSpace = "MemberMapper";
-	private static String InsertMember = NameSpace + ".insertMember";
-	private static String SelectMember = NameSpace + ".selectMember";
+	private static String InsertMember = NameSpace + ".create";
+	private static String SelectMember = NameSpace + ".read";
 
 	@Override
-	public void insertMember(MemberVO memberVO) {
+	public void create(MemberVO memberVO) {
 		sqlSession.insert(InsertMember, memberVO);
 	}
 
 	@Override
-	public MemberVO selectMember(String username) {
+	public MemberVO read(String username) {
 		return (MemberVO) sqlSession.selectOne(SelectMember, username);
 	}
 }

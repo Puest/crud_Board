@@ -4,7 +4,7 @@ import com.withfirst.crud.vo.MemberVO;
 
 public interface MemberDAO {
 	
-	public void insertMember(MemberVO memberVO);
+	public void create(MemberVO memberVO);
 
-	public MemberVO selectMember(String username);
+	public MemberVO read(String username);
 }

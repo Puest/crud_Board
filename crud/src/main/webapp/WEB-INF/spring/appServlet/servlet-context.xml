@@ -27,17 +27,20 @@
 
 	<!-- java 공통패키지 -->
 	<context:component-scan
-		base-package="com.withfirst.crud" />
+		base-package="com.withfirst.crud.*" />
 
 	<!-- Interceptor 빈 생성 -->
 	<beans:bean id="LoginInterceoter"
 		class="com.withfirst.crud.interceptor.LoginInterceptor" />
 
 	<!-- Interceptor 등록/설정 -->
-	<!-- <interceptors>
+	<interceptors>
 		<interceptor>
 			<mapping path="/**" />
+			<exclude-mapping path="/member/login" />
+			<exclude-mapping path="/member/join" />
+			<exclude-mapping path="/resources/**" />
 			<beans:ref bean="LoginInterceoter" />
 		</interceptor>
-	</interceptors> -->
+	</interceptors>
 </beans:beans>

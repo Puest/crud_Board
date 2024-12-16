@@ -11,11 +11,11 @@ import com.withfirst.crud.service.BoardService;
 import com.withfirst.crud.vo.BoardVO;
 
 @Service
-public class BoardServiceImpl implements BoardService{
-	
+public class BoardServiceImpl implements BoardService {
+
 	@Inject
 	private BoardDAO boardDAO;
-	
+
 	@Override
 	public void create(BoardVO boardVO) throws Exception {
 		boardDAO.create(boardVO);
@@ -40,5 +40,4 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardVO> allList() throws Exception {
 		return boardDAO.allList();
 	}
-	
 }
