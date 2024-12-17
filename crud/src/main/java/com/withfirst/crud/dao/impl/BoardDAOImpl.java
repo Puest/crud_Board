@@ -22,6 +22,11 @@ public class BoardDAOImpl implements BoardDAO {
 	private static String UPDATE = nameSpace + ".update";
 	private static String DELETE = nameSpace + ".delete";
 	private static String ALLLIST = nameSpace + ".allList";
+	private static String INCREASE = nameSpace + ".incrementPostCount";
+	private static String DECREASE = nameSpace + ".decrementPostCount";
+	private static String POSTLIST = nameSpace + ".postList";
+	
+	
 	
 	@Override
 	public void create(BoardVO boardVO) throws Exception {
@@ -46,6 +51,21 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<BoardVO> allList() throws Exception {
 		return sqlSession.selectList(ALLLIST);
+	}
+
+	@Override
+	public void increase(String writer) throws Exception {
+		sqlSession.update(INCREASE, writer);
+	}
+
+	@Override
+	public void decrease(String writer) throws Exception {
+		sqlSession.update(DECREASE, writer);
+	}
+
+	@Override
+	public List<BoardVO> postList() throws Exception {
+		return sqlSession.selectList(POSTLIST);
 	}
 
 }

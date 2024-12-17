@@ -1,6 +1,5 @@
 package com.withfirst.crud.vo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class BoardVO {

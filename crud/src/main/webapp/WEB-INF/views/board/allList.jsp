@@ -16,7 +16,7 @@
 </head>
 <body>
 	<!-- 사용자 이름과 로그아웃 버튼 -->
-	<div class="container d-flex justify-content-end align-items-center">
+	<div class="container d-flex justify-content-end align-items-center mt-3">
 		<div class="me-3">
 			<!-- 로그인된 사용자 이름 표시 -->
 			<c:if test="${not empty sessionScope.loginUser}">
@@ -40,6 +40,11 @@
 			role="alert">새 글이 등록되었습니다.</div>
 		<div id="removeOK" class="alert alert-danger visually-hidden"
 			role="alert">글이 삭제되었습니다.</div>
+		<div id="updateNO" class="alert alert-danger visually-hidden"
+			role="alert">수정 권한이 없습니다.</div>
+		<div id="removeNO" class="alert alert-danger visually-hidden"
+			role="alert">삭제 권한이 없습니다.</div>
+			
 		<!-- 게시글 테이블 -->
 		<table class="table table-striped table-hover">
 			<thead class="table-dark">
@@ -47,7 +52,7 @@
 					<th scope="col">No</th>
 					<th scope="col">제목</th>
 					<th scope="col">작성자</th>
-					<th scope="col">작성시간</th>
+					<th scope="col">작성일</th>
 				</tr>
 			</thead>
 			<c:forEach var="boardVO" items="${memberList}">
@@ -75,12 +80,22 @@
 		$(function() {
 			if (result === 'registerOK') {
 				$('#registerOK').removeClass('visually-hidden');
-				$('#registerOK').fadeOut(2000);
+				$('#registerOK').fadeOut(3000);
 			}
 
 			if (result === 'removeOK') {
 				$('#removeOK').removeClass('visually-hidden');
-				$('#removeOK').fadeOut(2000);
+				$('#removeOK').fadeOut(3000);
+			}
+			
+			if (result === 'updateNO') {
+				$('#updateNO').removeClass('visually-hidden');
+				$('#updateNO').fadeOut(3000);
+			}
+			
+			if (result === 'removeNO') {
+				$('#removeNO').removeClass('visually-hidden');
+				$('#removeNO').fadeOut(3000);
 			}
 		})
 	</script>

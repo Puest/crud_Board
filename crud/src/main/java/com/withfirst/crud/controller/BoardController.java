@@ -1,9 +1,6 @@
 package com.withfirst.crud.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -45,7 +42,8 @@ public class BoardController {
 		logger.info("register POST...");
 
 		boardService.create(boardVO);
-
+		boardService.increase(boardVO.writer);
+		
 		redirectAttributes.addFlashAttribute("result", "registerOK");
 
 		return "redirect:/board/allList";
@@ -67,16 +65,6 @@ public class BoardController {
 		model.addAttribute(boardVO);
 	}
 
-	// 글 삭제 처리 GET
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String removeGET(@RequestParam Integer board_no, RedirectAttributes redirectAttributes) throws Exception {
-		logger.info("remove GET...");
-		boardService.delete(board_no);
-		redirectAttributes.addFlashAttribute("result", "removeOK");
-
-		return "redirect:/board/allList";
-	}
-
 	// 글 수정 처리 GET
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String updateGET(@RequestParam("board_no") Integer board_no, HttpSession session, Model model,
@@ -85,15 +73,14 @@ public class BoardController {
 		BoardVO boardVO = boardService.read(board_no);
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 
-		// 권한 확인
+		// 권한 확인: 로그인 사용자와 작성자가 다를 경우 접근 차단
 		if (loginUser == null
 				|| (!boardVO.getWriter().equals(loginUser.getUsername()) && !loginUser.getRole().equals("admin"))) {
-			redirectAttributes.addFlashAttribute("error", "수정 권한이 없습니다.");
+			redirectAttributes.addFlashAttribute("result", "updateNO");
 			return "redirect:/board/allList";
 		}
 
 		model.addAttribute(boardVO);
-
 		return "/board/update";
 	}
 
@@ -105,6 +92,29 @@ public class BoardController {
 		redirectAttributes.addFlashAttribute("result", "updateOK");
 
 		return "redirect:/board/read?board_no=" + boardVO.getBoard_no();
+	}
+
+	// 글 삭제 처리 GET
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public String removeGET(@RequestParam Integer board_no, HttpSession session, RedirectAttributes redirectAttributes)
+			throws Exception {
+		logger.info("remove GET...");
+		BoardVO boardVO = boardService.read(board_no);
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+
+		// 권한 확인: 로그인 사용자와 작성자가 다를 경우 접근 차단
+		if (loginUser == null
+				|| (!boardVO.getWriter().equals(loginUser.getUsername()) && !loginUser.getRole().equals("admin"))) {
+			redirectAttributes.addFlashAttribute("result","removeNO");
+			return "redirect:/board/allList";
+		}
+		
+		// 삭제 로직 호출
+		boardService.delete(board_no);
+		boardService.decrease(boardVO.writer);
+		redirectAttributes.addFlashAttribute("result", "removeOK");
+
+		return "redirect:/board/allList";
 	}
 
 	// 로그아웃 처리

@@ -24,7 +24,7 @@
 		<!-- 게시글 정보 -->
 		<div class="card">
 			<div class="card-header">
-				<h4 id="post-title">Title:
+				<h4 id="post-title">제목:
 					${boardVO.title}(${boardVO.board_no})</h4>
 			</div>
 			<div class="card-body">

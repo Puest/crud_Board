@@ -1,5 +1,7 @@
 package com.withfirst.crud.dao.impl;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -17,6 +19,8 @@ public class MemberDAOImpl implements MemberDAO {
 	private static String NameSpace = "MemberMapper";
 	private static String InsertMember = NameSpace + ".create";
 	private static String SelectMember = NameSpace + ".read";
+	private static String SelectAllMember = NameSpace + ".readAll";
+	private static String deleteMember = NameSpace + ".delete";
 
 	@Override
 	public void create(MemberVO memberVO) {
@@ -26,5 +30,15 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public MemberVO read(String username) {
 		return (MemberVO) sqlSession.selectOne(SelectMember, username);
+	}
+
+	@Override
+	public List<MemberVO> allList() {
+		return sqlSession.selectList(SelectAllMember);
+	}
+
+	@Override
+	public void delete(Integer seq) throws Exception {
+		sqlSession.delete(deleteMember, seq);
 	}
 }

@@ -40,4 +40,19 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> allList() throws Exception {
 		return boardDAO.allList();
 	}
+
+	@Override
+	public void increase(String writer) throws Exception {
+		boardDAO.increase(writer);
+	}
+
+	@Override
+	public void decrease(String writer) throws Exception {
+		boardDAO.increase(writer);
+	}
+
+	@Override
+	public List<BoardVO> postList() throws Exception {
+		return boardDAO.postList();
+	}
 }

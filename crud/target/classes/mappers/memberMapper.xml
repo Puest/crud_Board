@@ -3,8 +3,8 @@
 <mapper namespace="MemberMapper">
 	<!-- 회원 삽입 -->
 	<insert id="create">
-		INSERT INTO user(username, password, email)
-		VALUES(#{username}, #{password}, #{email})
+		INSERT INTO user(username, password, email, name)
+		VALUES(#{username}, #{password}, #{email}, #{name})
 	</insert>
 	
 	<!-- 회원 조회 -->
@@ -12,5 +12,15 @@
 		SELECT * FROM user
 		WHERE username = #{username}
 	</select>
-
+	
+	<!-- 회원 전체 조회 -->
+	<select id="readAll" resultType="com.withfirst.crud.vo.MemberVO">
+		SELECT * FROM user
+	</select>
+	
+	<!-- 회원 삭제 -->
+	<delete id="delete">
+		DELETE FROM user
+		WHERE seq = #{seq}
+	</delete>
 </mapper>
