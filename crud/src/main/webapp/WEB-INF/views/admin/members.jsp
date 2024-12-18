@@ -44,7 +44,9 @@
 					<td>${memberVO.username}</td>
 					<td>${memberVO.email}</td>
 					<td>${memberVO.role}</td>
-					<td><a href="post">${memberVO.post_cnt}</a></td>
+					<td><a href="#" data-bs-toggle="modal"
+						data-bs-target="#postModal"
+						onclick="loadPosts('${memberVO.username}')">${memberVO.post_cnt}</a></td>
 					<td>${memberVO.comment_cnt}</td>
 					<td><fmt:formatDate value="${memberVO.created_at}"
 							pattern="yyyy-MM-dd HH:mm" timeZone="UTC" /></td>
@@ -55,5 +57,40 @@
 			</c:forEach>
 		</table>
 	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="postModal" tabindex="-1"
+		aria-labelledby="postModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<!-- 이곳에 posts.jsp의 내용이 동적으로 삽입 -->
+
+			</div>
+		</div>
+	</div>
+
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<!-- Bootstrap JS Bundle with Popper -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		function loadPosts(writer) {
+		    fetch('/admin/posts?writer=' + writer)
+				.then(response => response.text())
+				.then(data => {
+					// 모달 내용을 불러온 HTML로 교체
+		            document.querySelector('#postModal .modal-content').innerHTML = data;
+		        });
+		}
+		
+		function goPost(boardNo) {
+			const contextPath = "<%= request.getContextPath() %>";
+			console.log(contextPath);
+			location.href = contextPath + "/board/read?board_no=" + boardNo;
+		}
+    </script>
+	
+	
 </body>
 </html>

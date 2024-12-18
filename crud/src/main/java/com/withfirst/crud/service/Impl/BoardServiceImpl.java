@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.withfirst.crud.dao.BoardDAO;
+import com.withfirst.crud.paging.Criteria;
 import com.withfirst.crud.service.BoardService;
 import com.withfirst.crud.vo.BoardVO;
 
@@ -48,11 +49,16 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void decrease(String writer) throws Exception {
-		boardDAO.increase(writer);
+		boardDAO.decrease(writer);
 	}
 
 	@Override
-	public List<BoardVO> postList() throws Exception {
-		return boardDAO.postList();
+	public List<BoardVO> postList(String writer) throws Exception {
+		return boardDAO.postList(writer);
+	}
+
+	@Override
+	public List<BoardVO> pageList(Criteria ctr) throws Exception {
+		return boardDAO.pageList(ctr);
 	}
 }

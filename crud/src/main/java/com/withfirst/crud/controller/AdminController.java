@@ -27,16 +27,30 @@ public class AdminController {
 
 	@Inject
 	private LoginService loginService;
-	
+
 	@Inject
 	private BoardService boardService;
-	
+
 	// 회원 관리 처리 GET
 	@RequestMapping(value = "members", method = RequestMethod.GET)
 	public void membersGET(Model model) throws Exception {
 		logger.info("Admin-members GET...");
+
 		List<MemberVO> members = loginService.allList();
 		model.addAttribute("memberList", members);
+	}
+
+	// 회원별 게시글 조회 GET (회원 별 작성한 게시글 데이터를 전부 반환)
+	@RequestMapping(value = "/posts", method = RequestMethod.GET)
+	public String postsGET(@RequestParam("writer") String writer, Model model) throws Exception {
+		logger.info("Fetching posts for writer: " + writer);
+
+		// writer에 해당하는 게시글 가져오기
+		List<BoardVO> posts = boardService.postList(writer);
+		model.addAttribute("postList", posts);
+		model.addAttribute("writer", writer); // 작성자 정보 추가
+
+		return "admin/posts"; // JSP 파일명 (게시글 테이블만 반환)
 	}
 
 	// 회원 삭제 처리 GET
@@ -50,7 +64,7 @@ public class AdminController {
 
 		return "redirect:/admin/members";
 	}
-	
+
 	// 회원 게시글 조회 GET
 	@RequestMapping(value = "/post", method = RequestMethod.GET)
 	public void postGET() throws Exception {

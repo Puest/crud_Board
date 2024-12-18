@@ -4,15 +4,13 @@
 	<!-- 게시판 목록 조회 -->
 	<select id="allList" resultType="com.withfirst.crud.vo.BoardVO">
 		SELECT * FROM board
-		ORDER BY
-		board_no desc, updated_at desc
+		ORDER BY board_no desc, updated_at desc
 	</select>
 
 	<!-- 게시판 글 상세 조회 -->
 	<select id="read" resultType="com.withfirst.crud.vo.BoardVO">
 		SELECT * FROM board
-		WHERE board_no =
-		#{board_no}
+		WHERE board_no = #{board_no}
 	</select>
 
 	<!-- 게시글 작성 -->
@@ -24,8 +22,7 @@
 	<!-- 게시글 수정 -->
 	<update id="update">
 		UPDATE board
-		SET title = #{title}, description =
-		#{description}
+		SET title = #{title}, description = #{description}
 		where board_no = #{board_no}
 	</update>
 
@@ -38,16 +35,14 @@
 	<!-- 게시글 작성 카운트 -->
 	<update id="incrementPostCount">
 		UPDATE user
-		SET
-		post_cnt = post_cnt + 1
+		SET post_cnt = post_cnt + 1
 		WHERE username = #{writer}
 	</update>
 
 	<!-- 게시글 삭제 카운트 -->
 	<update id="decrementPostCount">
 		UPDATE user
-		SET
-		post_cnt = post_cnt - 1
+		SET post_cnt = post_cnt - 1
 		WHERE username = #{writer}
 	</update>
 	
@@ -57,5 +52,13 @@
 		WHERE writer
 		= #{writer}
 		ORDER BY board_no desc, updated_at desc
+	</select>
+	
+	<!-- 페이지 별 조회 -->
+	<select id="pageList" resultType="com.withfirst.crud.vo.BoardVO">
+		SELECT * FROM board
+		WHERE board_no > 0
+		ORDER BY board_no DESC, updated_at DESC
+		limit #{currentPageNo}, #{recordsPageNo}
 	</select>
 </mapper>	

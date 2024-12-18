@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.withfirst.crud.dao.BoardDAO;
+import com.withfirst.crud.paging.Criteria;
 import com.withfirst.crud.vo.BoardVO;
 
 @Repository
@@ -25,6 +26,7 @@ public class BoardDAOImpl implements BoardDAO {
 	private static String INCREASE = nameSpace + ".incrementPostCount";
 	private static String DECREASE = nameSpace + ".decrementPostCount";
 	private static String POSTLIST = nameSpace + ".postList";
+	private static String PAGELIST = nameSpace + ".pageList";
 	
 	
 	
@@ -64,8 +66,13 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<BoardVO> postList() throws Exception {
-		return sqlSession.selectList(POSTLIST);
+	public List<BoardVO> postList(String writer) throws Exception {
+		return sqlSession.selectList(POSTLIST, writer);
+	}
+
+	@Override
+	public List<BoardVO> pageList(Criteria ctr) throws Exception {
+		return sqlSession.selectList(PAGELIST, ctr);
 	}
 
 }

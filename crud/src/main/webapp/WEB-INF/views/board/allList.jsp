@@ -20,7 +20,7 @@
 		<div class="me-3">
 			<!-- 로그인된 사용자 이름 표시 -->
 			<c:if test="${not empty sessionScope.loginUser}">
-				<span class="fw-bold">${sessionScope.loginUser.username}님, 반갑습니다!</span>
+				<span class="fw-bold">${sessionScope.loginUser.username}님, 환영합니다.</span>
 			</c:if>
 		</div>
 		<div>

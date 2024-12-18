@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.withfirst.crud.paging.Criteria;
 import com.withfirst.crud.service.BoardService;
 import com.withfirst.crud.vo.BoardVO;
 import com.withfirst.crud.vo.MemberVO;
@@ -116,7 +117,19 @@ public class BoardController {
 
 		return "redirect:/board/allList";
 	}
-
+	
+	// 페이징 처리 GET
+	@RequestMapping(value = "/pageList", method = RequestMethod.GET)
+	public void pageList(Criteria ctr, Model model) throws Exception {
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	// 로그아웃 처리
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logoutGET(HttpSession session) {
