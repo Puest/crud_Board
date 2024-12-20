@@ -61,4 +61,9 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> pageList(Criteria ctr) throws Exception {
 		return boardDAO.pageList(ctr);
 	}
+
+	@Override
+	public int totalCount(Criteria ctr) throws Exception {
+		return boardDAO.totalCount(ctr);
+	}
 }

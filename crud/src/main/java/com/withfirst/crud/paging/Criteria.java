@@ -1,46 +1,57 @@
 package com.withfirst.crud.paging;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class Criteria {
-	private int currentPageNo;
-	private int recordsPageNo;
+	private int pageNo; // 현재 페이지
+	private int totalPageNo; // 총 페이지 개수
 
 	public Criteria() {
-		this.currentPageNo = 1;
-		this.recordsPageNo = 10;
+		this.pageNo = 1;
+		this.totalPageNo = 10;
 	}
 
-	// 페이지 시작을 반환
+	// 시작 데이터(ex. DB의 1번 데이터는 0번을 뜻 함)
 	public int startPage() {
-		return (this.currentPageNo - 1) * recordsPageNo;
+		return (this.pageNo - 1) * totalPageNo;
 	}
 
-	public int getCurrentPageNo() {
-		return currentPageNo;
+	public int getPageNo() {
+		return pageNo;
 	}
 
-	public void setCurrentPageNo(int currentPageNo) {
-		if (currentPageNo <= 0) {
-			this.currentPageNo = 1;
+	public void setPageNo(int pageNo) {
+		if (pageNo <= 0) {
+			this.pageNo = 1;
 		} else {
-			this.currentPageNo = currentPageNo;
+			this.pageNo = pageNo;
 		}
 	}
 
-	public int getRecordsPageNo() {
-		return recordsPageNo;
+	public int getTotalPageNo() {
+		return totalPageNo;
 	}
 
-	public void setRecordsPageNo(int recordsPageNo) {
-		if(recordsPageNo <= 0 || recordsPageNo > 100) {
-			this.recordsPageNo = 10;
+	public void setTotalPageNo(int totalPageNo) {
+		if (totalPageNo <= 0 || totalPageNo > 100) {
+			this.totalPageNo = 10;
 		} else {
-			this.recordsPageNo = recordsPageNo;
+			this.totalPageNo = totalPageNo;
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "Criteria [currentPageNo=" + currentPageNo + ", recordsPageNo=" + recordsPageNo + "]";
+		return "Criteria [pageNo=" + pageNo + ", totalPageNo=" + totalPageNo + "]";
+	}
+
+	// 파리미터를 통한 URI 쿼리 생성
+	public String makerQuery() {
+		UriComponents uriComponents = UriComponentsBuilder.newInstance().queryParam("page", pageNo)
+				.queryParam("totalPages", this.totalPageNo).build().encode();
+
+		return uriComponents.toString();
 	}
 
 }

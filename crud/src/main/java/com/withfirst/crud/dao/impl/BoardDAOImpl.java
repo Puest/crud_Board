@@ -27,6 +27,7 @@ public class BoardDAOImpl implements BoardDAO {
 	private static String DECREASE = nameSpace + ".decrementPostCount";
 	private static String POSTLIST = nameSpace + ".postList";
 	private static String PAGELIST = nameSpace + ".pageList";
+	private static String TOTALCOUNT = nameSpace + ".totalCount";
 	
 	
 	
@@ -73,6 +74,11 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<BoardVO> pageList(Criteria ctr) throws Exception {
 		return sqlSession.selectList(PAGELIST, ctr);
+	}
+
+	@Override
+	public int totalCount(Criteria ctr) throws Exception {
+		return sqlSession.selectOne(TOTALCOUNT, ctr);
 	}
 
 }

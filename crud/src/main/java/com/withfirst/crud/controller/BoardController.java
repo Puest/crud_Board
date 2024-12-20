@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.withfirst.crud.paging.Criteria;
+import com.withfirst.crud.paging.PageMaker;
 import com.withfirst.crud.service.BoardService;
 import com.withfirst.crud.vo.BoardVO;
 import com.withfirst.crud.vo.MemberVO;
@@ -44,7 +45,7 @@ public class BoardController {
 
 		boardService.create(boardVO);
 		boardService.increase(boardVO.writer);
-		
+
 		redirectAttributes.addFlashAttribute("result", "registerOK");
 
 		return "redirect:/board/allList";
@@ -106,10 +107,10 @@ public class BoardController {
 		// 권한 확인: 로그인 사용자와 작성자가 다를 경우 접근 차단
 		if (loginUser == null
 				|| (!boardVO.getWriter().equals(loginUser.getUsername()) && !loginUser.getRole().equals("admin"))) {
-			redirectAttributes.addFlashAttribute("result","removeNO");
+			redirectAttributes.addFlashAttribute("result", "removeNO");
 			return "redirect:/board/allList";
 		}
-		
+
 		// 삭제 로직 호출
 		boardService.delete(board_no);
 		boardService.decrease(boardVO.writer);
@@ -117,19 +118,24 @@ public class BoardController {
 
 		return "redirect:/board/allList";
 	}
-	
+
 	// 페이징 처리 GET
 	@RequestMapping(value = "/pageList", method = RequestMethod.GET)
 	public void pageList(Criteria ctr, Model model) throws Exception {
-		
+		logger.info("pageList GET...");
+
+		List<BoardVO> boardVO = boardService.allList();
+		model.addAttribute("list", boardVO);
+
+		PageMaker pageMaker = new PageMaker(ctr);
+
+		int totalCount = boardService.totalCount(ctr);
+
+		pageMaker.setTotalPostCnt(totalCount);
+		logger.info("pageMaker:" + pageMaker.getStartPage() + pageMaker.getEndPage() + pageMaker.getTotalPostCnt());
+		model.addAttribute("pageMaker", pageMaker);
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	// 로그아웃 처리
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logoutGET(HttpSession session) {

@@ -24,4 +24,6 @@ public interface BoardDAO {
 	public List<BoardVO> postList(String writer) throws Exception;
 
 	public List<BoardVO> pageList(Criteria ctr) throws Exception;
+	
+	public int totalCount(Criteria ctr) throws Exception;
 }

@@ -1,5 +1,8 @@
 package com.withfirst.crud.paging;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class PageMaker {
 	private int totalPostCnt; // 총 게시물 수
 	private int startPage; // 현재 페이지를 기점으로 시작 페이지 번호
@@ -19,28 +22,6 @@ public class PageMaker {
 	public void setTotalPostCnt(int totalPostCnt) {
 		this.totalPostCnt = totalPostCnt;
 		calcPost();
-	}
-
-	public void calcPost() {
-		int currentPage = this.ctr.getCurrentPageNo();
-		int recordsPerPage = this.ctr.getRecordsPageNo();
-
-		// ceil(올림)을 통해 11 이상은 2페이지가 되고, 21 이상은 3페이지가 나옴
-		this.endPage = (int) (Math.ceil(currentPage / (double) 10.0) * 10);
-		
-		// 현재 페이지 구현
-		this.startPage = (this.endPage - 10) + 1;
-		
-		// 사용할 총 페이지 수(ex. page = 75개라면 → ceil(75 / 10) = 7.5 → 8 페이지)
-		int totalEndPage = (int)(Math.ceil(totalPostCnt / (double) recordsPerPage));
-		
-		if(this.endPage > totalEndPage) {
-			this.endPage = totalEndPage;
-		}
-		
-		this.prev = (startPage != 1);
-		this.next = (endPage * recordsPerPage < totalPostCnt);
-		
 	}
 
 	public int getStartPage() {
@@ -82,5 +63,36 @@ public class PageMaker {
 	public void setCtr(Criteria ctr) {
 		this.ctr = ctr;
 	}
+	
+	public void calcPost() {
+		int currentPage = this.ctr.getPageNo();
+		int recordsPerPage = this.ctr.getTotalPageNo();
 
+		// ceil(올림)을 통해 11 이상은 2페이지가 되고, 21 이상은 3페이지가 나옴
+		this.endPage = (int) (Math.ceil(currentPage / (double) 10.0) * 10);
+		
+		// 현재 페이지 구현
+		this.startPage = (this.endPage - 10) + 1;
+		
+		// 사용할 총 페이지 수(ex. page = 75개라면 → ceil(75 / 10) = 7.5 → 8 페이지)
+		int totalEndPage = (int)(Math.ceil(totalPostCnt / (double) recordsPerPage));
+		
+		if(this.endPage > totalEndPage) {
+			this.endPage = totalEndPage;
+		}
+		
+		this.prev = (startPage != 1);
+		this.next = (endPage * recordsPerPage < totalPostCnt);
+	}
+	
+	// 파리미터를 통한 URI 쿼리 생성
+	public String makerQuery(int page) {
+		UriComponents uriComponents = UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("totalPages", this.ctr.getTotalPageNo())
+				.build()
+				.encode();
+		
+		return uriComponents.toString();
+	}
 }

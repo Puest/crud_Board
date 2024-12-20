@@ -59,6 +59,13 @@
 		SELECT * FROM board
 		WHERE board_no > 0
 		ORDER BY board_no DESC, updated_at DESC
-		limit #{currentPageNo}, #{recordsPageNo}
+		limit #{page}, #{totalPages}
+	</select>
+	
+	<!-- 게시글 개수 조회 -->
+	<select id="totalCount" resultType="int">
+		SELECT COUNT(board_no)
+		FROM board
+		WHERE board_no > 0
 	</select>
 </mapper>	
