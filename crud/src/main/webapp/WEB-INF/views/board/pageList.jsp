@@ -52,8 +52,7 @@
 			<div class="d-flex justify-content-end align-items-center mb-2">
 				<!-- perPageNum의 값을 정하는 select 박스 -->
 				<label for="itemsLabel" class="me-2"><strong>페이지당
-						항목 수:</strong></label>
-				<select id="itemsPerPage" class="form-select w-auto">
+						항목 수:</strong></label> <select id="itemsPerPage" class="form-select w-auto">
 					<option value="10">10</option>
 					<option value="15">15</option>
 					<option value="20">20</option>
@@ -88,7 +87,7 @@
 		<div class="text-end">
 			<a href="register" class="btn btn-primary">새 글 작성</a>
 		</div>
-		
+
 		<!-- 페이지네이션 -->
 		<div class="mt-3">
 			<nav aria-label="Page navigation">
@@ -100,13 +99,13 @@
 
 					<c:forEach begin="${pageMaker.startPage}"
 						end="${pageMaker.endPage}" var="idx">
-						<li id="pageNo${idx} page-item"><a class="page-link"
+						<li id="pageNo${idx}" class="page-item"><a class="page-link"
 							href="pageList${pageMaker.makerQuery(idx)}"><span>${idx}</span></a></li>
 					</c:forEach>
 
 					<!-- next 버튼 -->
 					<li id="page-next"><a class="page-link"
-						href="pageList${pageMaker.makerQuery(pageMaker.endPage-1)}"
+						href="pageList${pageMaker.makerQuery(pageMaker.endPage + 1)}"
 						aria-label="Next"><span aria-hidden="true">다음 &raquo; </span></a></li>
 				</ul>
 			</nav>
@@ -158,21 +157,24 @@
 
 			//현재 페이지 파란색으로 활성화
 			var thisPage = '${pageMaker.ctr.pageNo}';
-			//매번 refresh 되므로 다른 페이지 removeClass 할 필요는 없음->Ajax 이용시엔 해야함
-			$('#pageNo' + thisPage).addClass('active');
+			$('#pageNo' + thisPage).addClass('active'); // 페이징 처리는 새로운 페이지로 넘어가기 때문에 따로 removeClass() 필요X
 		})
 
 		/* 버튼 설정 */
 		function setPerPageNumSelect() {
-			var totalPageNum = '${pageMaker.ctr.totalPageNo}';
-			var thisPage = '${pageMaker.ctr.pageNo}';
+			var totalPageNum = '${pageMaker.ctr.totalPageNo}'; // 서버 데이터 반영
+			var thisPage = '${pageMaker.ctr.pageNo}'; // 현재 페이지
 			var $itemsPerPage = $('#itemsPerPage');
+
+			// 초기 선택 값 설정
 			$itemsPerPage.val(totalPageNum).prop("selected", true);
+
 			// itemsPerPage가 바뀌면 링크 이동
 			$itemsPerPage.on('change', function() {
 				//pageMarker.makeQuery 사용 못하는 이유: makeQuery는 page만을 매개변수로 받기에 변경된 totalPageNo을 반영못함
-				window.location.href = "pageList?page=" + thisPage
-						+ "&totalPage=" + $itemsPerPage.val();
+				var selectedValue = $itemsPerPage.val();
+				window.location.href = "pageList?pageNo=" + thisPage
+						+ "&totalPageNo=" + selectedValue;
 			})
 		}
 	</script>

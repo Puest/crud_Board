@@ -67,7 +67,7 @@ public class PageMaker {
 	public void calcPost() {
 		int currentPage = this.ctr.getPageNo();
 		int recordsPerPage = this.ctr.getTotalPageNo();
-
+		
 		// ceil(올림)을 통해 11 이상은 2페이지가 되고, 21 이상은 3페이지가 나옴
 		this.endPage = (int) (Math.ceil(currentPage / (double) 10.0) * 10);
 		
@@ -76,6 +76,7 @@ public class PageMaker {
 		
 		// 사용할 총 페이지 수(ex. page = 75개라면 → ceil(75 / 10) = 7.5 → 8 페이지)
 		int totalEndPage = (int)(Math.ceil(totalPostCnt / (double) recordsPerPage));
+		
 		
 		if(this.endPage > totalEndPage) {
 			this.endPage = totalEndPage;
@@ -88,8 +89,8 @@ public class PageMaker {
 	// 파리미터를 통한 URI 쿼리 생성
 	public String makerQuery(int page) {
 		UriComponents uriComponents = UriComponentsBuilder.newInstance()
-				.queryParam("page", page)
-				.queryParam("totalPages", this.ctr.getTotalPageNo())
+				.queryParam("pageNo", page)
+				.queryParam("totalPageNo", this.ctr.getTotalPageNo())
 				.build()
 				.encode();
 		

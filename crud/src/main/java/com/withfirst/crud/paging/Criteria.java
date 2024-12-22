@@ -13,7 +13,7 @@ public class Criteria {
 	}
 
 	// 시작 데이터(ex. DB의 1번 데이터는 0번을 뜻 함)
-	public int startPage() {
+	public int getStartPage() {
 		return (this.pageNo - 1) * totalPageNo;
 	}
 
@@ -48,8 +48,8 @@ public class Criteria {
 
 	// 파리미터를 통한 URI 쿼리 생성
 	public String makerQuery() {
-		UriComponents uriComponents = UriComponentsBuilder.newInstance().queryParam("page", pageNo)
-				.queryParam("totalPages", this.totalPageNo).build().encode();
+		UriComponents uriComponents = UriComponentsBuilder.newInstance().queryParam("pageNo", pageNo)
+				.queryParam("totalPagesNo", this.totalPageNo).build().encode();
 
 		return uriComponents.toString();
 	}

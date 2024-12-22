@@ -124,15 +124,14 @@ public class BoardController {
 	public void pageList(Criteria ctr, Model model) throws Exception {
 		logger.info("pageList GET...");
 
-		List<BoardVO> boardVO = boardService.allList();
+		List<BoardVO> boardVO = boardService.pageList(ctr);
 		model.addAttribute("list", boardVO);
 
 		PageMaker pageMaker = new PageMaker(ctr);
 
 		int totalCount = boardService.totalCount(ctr);
-
+		
 		pageMaker.setTotalPostCnt(totalCount);
-		logger.info("pageMaker:" + pageMaker.getStartPage() + pageMaker.getEndPage() + pageMaker.getTotalPostCnt());
 		model.addAttribute("pageMaker", pageMaker);
 	}
 

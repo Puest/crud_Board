@@ -59,7 +59,7 @@
 		SELECT * FROM board
 		WHERE board_no > 0
 		ORDER BY board_no DESC, updated_at DESC
-		limit #{page}, #{totalPages}
+		LIMIT #{startPage}, #{totalPageNo}
 	</select>
 	
 	<!-- 게시글 개수 조회 -->
