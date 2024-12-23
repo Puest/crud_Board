@@ -74,7 +74,7 @@
 				<tr>
 					<td>${boardVO.board_no}</td>
 					<td><a
-						href="read${pageMaker.makerQuery(pageMaker.ctr.pageNo)}&board=${boardVO.board_no}"
+						href="read${pageMaker.makerQuery(pageMaker.ctr.pageNo)}&board_no=${boardVO.board_no}"
 						class="text-decoration-none"> ${boardVO.title} </a></td>
 					<td>${boardVO.writer}</td>
 					<td><fmt:formatDate value="${boardVO.updated_at}"
@@ -95,7 +95,7 @@
 					<!-- prev 버튼 -->
 					<li id="page-prev"><a class="page-link"
 						href="pageList${pageMaker.makerQuery(pageMaker.startPage-1)}"
-						aria-label="Prev"><span aria-hidden="true">&laquo; 이전</span></a></li>
+						aria-label="Prev"><span aria-hidden="true">&laquo;</span></a></li>
 
 					<c:forEach begin="${pageMaker.startPage}"
 						end="${pageMaker.endPage}" var="idx">
@@ -106,7 +106,7 @@
 					<!-- next 버튼 -->
 					<li id="page-next"><a class="page-link"
 						href="pageList${pageMaker.makerQuery(pageMaker.endPage + 1)}"
-						aria-label="Next"><span aria-hidden="true">다음 &raquo; </span></a></li>
+						aria-label="Next"><span aria-hidden="true">&raquo; </span></a></li>
 				</ul>
 			</nav>
 		</div>

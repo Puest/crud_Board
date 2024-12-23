@@ -51,13 +51,13 @@
 				<div class="text-end">
 					<c:if test="${sessionScope.loginUser.username eq boardVO.writer || sessionScope.loginUser.role eq 'admin'}">
 						<!-- 수정 버튼 -->
-						<a href="update?board_no=${boardVO.board_no}"
+						<a href="update${ctr.makerQuery()}&board_no=${boardVO.board_no}"
 							class="btn btn-warning">수정하기</a>
 						<!-- 삭제 버튼 -->
 						<button id="btn-remove" class="btn btn-danger">삭제하기</button>
 					</c:if>
 					<!-- 목록 버튼  -->
-					<a href="allList" class="btn btn-secondary">목록으로</a>
+					<a href="pageList${ctr.makerQuery()}" class="btn btn-secondary">목록으로</a>
 				</div>
 			</div>
 		</div>
@@ -70,7 +70,7 @@
 		$(function() {
 			$('#btn-remove').click(function() {
 				if (confirm("게시글을 삭제하시겠습니까?")) {
-					self.location.href = "delete?board_no=${boardVO.board_no}";
+					self.location.href = "delete${ctr.makerQuery()}&board_no=${boardVO.board_no}";
 				}
 			});
 

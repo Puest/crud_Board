@@ -11,6 +11,10 @@
 </head>
 <body>
 	<div class="container mt-5">
+		<!-- page와 perPageNum  추가 -->
+		<input type="hidden" name="pageNo" value="${ctr.pageNo}" />
+		<input type="hidden" name="totalPageNo" value="${ctr.totalPageNo}" />
+		
 		<h2 class="text-center mb-4">글 수정하기</h2>
 		<!-- 수정 폼 -->
 		<form action="update" method="post">
@@ -30,7 +34,7 @@
 
 			<div class="text-end">
 				<button type="submit" class="btn btn-primary">수정 완료</button>
-				<a href="read?board_no=${boardVO.board_no}" class="btn btn-secondary">취소</a>
+				<a href="read${ctr.makerQuery()}&board_no=${boardVO.board_no}" class="btn btn-secondary">취소</a>
 			</div>
 		</form>
 	</div>

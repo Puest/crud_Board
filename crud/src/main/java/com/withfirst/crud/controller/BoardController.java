@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,7 +62,8 @@ public class BoardController {
 
 	// 글 조회 처리 GET
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public void read(@RequestParam("board_no") Integer board_no, Model model) throws Exception {
+	public void read(@RequestParam("board_no") Integer board_no, @ModelAttribute("ctr") Criteria ctr, Model model)
+			throws Exception {
 		logger.info("Read GET...");
 		BoardVO boardVO = boardService.read(board_no);
 		model.addAttribute(boardVO);
@@ -69,8 +71,8 @@ public class BoardController {
 
 	// 글 수정 처리 GET
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public String updateGET(@RequestParam("board_no") Integer board_no, HttpSession session, Model model,
-			RedirectAttributes redirectAttributes) throws Exception {
+	public String updateGET(@RequestParam("board_no") Integer board_no, @ModelAttribute("ctr") Criteria ctr,
+			HttpSession session, Model model, RedirectAttributes redirectAttributes) throws Exception {
 		logger.info("update GET");
 		BoardVO boardVO = boardService.read(board_no);
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
@@ -79,7 +81,7 @@ public class BoardController {
 		if (loginUser == null
 				|| (!boardVO.getWriter().equals(loginUser.getUsername()) && !loginUser.getRole().equals("admin"))) {
 			redirectAttributes.addFlashAttribute("result", "updateNO");
-			return "redirect:/board/allList";
+			return "redirect:/board/pageList";
 		}
 
 		model.addAttribute(boardVO);
@@ -88,12 +90,16 @@ public class BoardController {
 
 	// 글 수정 처리 POST
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updatePOST(BoardVO boardVO, RedirectAttributes redirectAttributes) throws Exception {
+	public String updatePOST(BoardVO boardVO, Criteria ctr, RedirectAttributes redirectAttributes) throws Exception {
 		logger.info("update POST...");
 		boardService.update(boardVO);
 		redirectAttributes.addFlashAttribute("result", "updateOK");
 
-		return "redirect:/board/read?board_no=" + boardVO.getBoard_no();
+		redirectAttributes.addAttribute("pageNo", ctr.getPageNo());
+		redirectAttributes.addAttribute("totalPageNo", ctr.getTotalPageNo());
+		redirectAttributes.addAttribute("board_no", boardVO.board_no);
+
+		return "redirect:/board/read";
 	}
 
 	// 글 삭제 처리 GET
@@ -130,7 +136,7 @@ public class BoardController {
 		PageMaker pageMaker = new PageMaker(ctr);
 
 		int totalCount = boardService.totalCount(ctr);
-		
+
 		pageMaker.setTotalPostCnt(totalCount);
 		model.addAttribute("pageMaker", pageMaker);
 	}
