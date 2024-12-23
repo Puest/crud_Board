@@ -35,27 +35,30 @@ public class BoardController {
 
 	// 글 작성 페이지 GET
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public void registerGET() throws Exception {
+	public void registerGET(BoardVO boardVO, @ModelAttribute("ctr") Criteria ctr, Model model) throws Exception {
 		logger.info("Register GET...");
 	}
 
 	// 글 작성 POST
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registerPOST(BoardVO boardVO, RedirectAttributes redirectAttributes) throws Exception {
+	public String registerPOST(BoardVO boardVO, Criteria ctr, RedirectAttributes redirectAttributes) throws Exception {
 		logger.info("register POST...");
-
+		logger.info(boardVO.toString());
+		
 		boardService.create(boardVO);
-		boardService.increase(boardVO.writer);
-
 		redirectAttributes.addFlashAttribute("result", "registerOK");
 
-		return "redirect:/board/allList";
+		redirectAttributes.addAttribute("pageNo", 1); // 등록 시 첫 페이지로 이동
+		redirectAttributes.addAttribute("totalPageNo", ctr.getTotalPageNo());
+		
+		return "redirect:/board/pageList";
 	}
 
 	// 게시글 전체 페이지 GET
 	@RequestMapping(value = "/allList", method = RequestMethod.GET)
 	public void listAll(Model model) throws Exception {
 		logger.info("show all list");
+		
 		List<BoardVO> members = boardService.allList();
 		model.addAttribute("memberList", members);
 	}
@@ -65,6 +68,7 @@ public class BoardController {
 	public void read(@RequestParam("board_no") Integer board_no, @ModelAttribute("ctr") Criteria ctr, Model model)
 			throws Exception {
 		logger.info("Read GET...");
+		
 		BoardVO boardVO = boardService.read(board_no);
 		model.addAttribute(boardVO);
 	}
@@ -104,8 +108,8 @@ public class BoardController {
 
 	// 글 삭제 처리 GET
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String removeGET(@RequestParam Integer board_no, HttpSession session, RedirectAttributes redirectAttributes)
-			throws Exception {
+	public String removeGET(@RequestParam Integer board_no, Criteria ctr, HttpSession session,
+			RedirectAttributes redirectAttributes) throws Exception {
 		logger.info("remove GET...");
 		BoardVO boardVO = boardService.read(board_no);
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
@@ -114,15 +118,17 @@ public class BoardController {
 		if (loginUser == null
 				|| (!boardVO.getWriter().equals(loginUser.getUsername()) && !loginUser.getRole().equals("admin"))) {
 			redirectAttributes.addFlashAttribute("result", "removeNO");
-			return "redirect:/board/allList";
+			return "redirect:/board/pageList";
 		}
 
 		// 삭제 로직 호출
 		boardService.delete(board_no);
-		boardService.decrease(boardVO.writer);
 		redirectAttributes.addFlashAttribute("result", "removeOK");
 
-		return "redirect:/board/allList";
+		redirectAttributes.addAttribute("pageNo", ctr.getPageNo());
+		redirectAttributes.addAttribute("totalPageNo", ctr.getTotalPageNo());
+
+		return "redirect:/board/pageList";
 	}
 
 	// 페이징 처리 GET

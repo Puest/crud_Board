@@ -25,7 +25,7 @@
 		<div class="card">
 			<div class="card-header">
 				<h4 id="post-title">제목:
-					${boardVO.title}(${boardVO.board_no})</h4>
+					${boardVO.title}</h4>
 			</div>
 			<div class="card-body">
 				<!-- 작성자와 작성 시간 -->
