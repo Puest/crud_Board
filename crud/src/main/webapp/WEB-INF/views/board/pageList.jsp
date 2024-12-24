@@ -16,7 +16,7 @@
 	rel="stylesheet">
 </head>
 <body>
-	<!-- 사용자 이름과 로그아웃 버튼 -->
+	<!-- 상단 사용자 이름과 로그아웃 버튼 -->
 	<div
 		class="container d-flex justify-content-end align-items-center mt-3">
 		<div class="me-3">
@@ -36,9 +36,10 @@
 
 	<!-- 게시판 목록 -->
 	<div class="container mt-3">
-
+		<!-- 게시글 제목 -->
 		<h2 class="text-center mb-4">게시판 목록</h2>
 
+		<!-- 등록 및 경고 알람 -->
 		<div id="registerOK" class="alert alert-info visually-hidden"
 			role="alert">새 글이 등록되었습니다.</div>
 		<div id="removeOK" class="alert alert-danger visually-hidden"
@@ -48,15 +49,33 @@
 		<div id="removeNO" class="alert alert-danger visually-hidden"
 			role="alert">삭제 권한이 없습니다.</div>
 
+
 		<div class="row">
-			<div class="d-flex justify-content-end align-items-center mb-2">
-				<!-- perPageNum의 값을 정하는 select 박스 -->
-				<label for="itemsLabel" class="me-2"><strong>페이지당
-						항목 수:</strong></label> <select id="itemsPerPage" class="form-select w-auto">
-					<option value="10">10</option>
-					<option value="15">15</option>
-					<option value="20">20</option>
-				</select>
+			<div class="d-flex justify-content-between align-items-center mb-2">
+				<!-- 검색 조건 -->
+				<div class="d-flex align-items-center">
+					<select id="searchCondition" name="condition"
+						class="form-select me-1">
+						<option value="">검색조건</option>
+						<option value="title">제목</option>
+						<option value="content">내용</option>
+						<option value="author">작성자</option>
+						<option value="title_content">제목+내용</option>
+					</select> <input type="text" name="query" placeholder="검색어를 입력하세요"
+						class="form-control w-auto me-2" value="${pageMaker.ctr.keyword}">
+					<button type="submit" class="btn btn-primary">Search</button>
+				</div>
+
+				<!-- 게시글 페이징 -->
+				<div class="d-flex align-items-center">
+					<!-- perPageNum의 값을 정하는 select 박스 -->
+					<label for="itemsLabel" class="me-2"><strong>페이지당
+							항목 수:</strong></label> <select id="itemsPerPage" class="form-select w-auto">
+						<option value="10">10</option>
+						<option value="15">15</option>
+						<option value="20">20</option>
+					</select>
+				</div>
 			</div>
 		</div>
 

@@ -6,10 +6,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class Criteria {
 	private int pageNo; // 현재 페이지
 	private int totalPageNo; // 총 페이지 개수
+	private String search;
+	private String keyword;
 
 	public Criteria() {
 		this.pageNo = 1;
 		this.totalPageNo = 10;
+		this.search = null;
+		this.keyword = null;
 	}
 
 	// 시작 데이터(ex. DB의 1번 데이터는 0번을 뜻 함)
@@ -41,17 +45,39 @@ public class Criteria {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "Criteria [pageNo=" + pageNo + ", totalPageNo=" + totalPageNo + "]";
+	public String getSearch() {
+		return search;
 	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
 
 	// 파리미터를 통한 URI 쿼리 생성
 	public String makerQuery() {
-		UriComponents uriComponents = UriComponentsBuilder.newInstance().queryParam("pageNo", pageNo)
-				.queryParam("totalPagesNo", this.totalPageNo).build().encode();
+		UriComponentsBuilder uriComponents = UriComponentsBuilder.newInstance().queryParam("pageNo", pageNo)
+				.queryParam("totalPagesNo", this.totalPageNo);
 
-		return uriComponents.toString();
+		if (search != null) {
+			uriComponents.queryParam("search", this.search).queryParam("keyworkd", this.keyword);
+		}
+
+		return uriComponents.build().encode().toString();
+	}
+
+	@Override
+	public String toString() {
+		return "Criteria [pageNo=" + pageNo + ", totalPageNo=" + totalPageNo + ", search=" + search + ", keyword="
+				+ keyword + "]";
 	}
 
 }
