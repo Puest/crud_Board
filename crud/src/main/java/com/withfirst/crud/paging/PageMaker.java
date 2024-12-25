@@ -86,12 +86,12 @@ public class PageMaker {
 	}
 
 	// 파리미터를 통한 URI 쿼리 생성
-	public String makerQuery(int page) {
-		UriComponentsBuilder uriComponents = UriComponentsBuilder.newInstance().queryParam("pageNo", page)
+	public String makerQuery(int pageNo) {
+		UriComponentsBuilder uriComponents = UriComponentsBuilder.newInstance().queryParam("pageNo", pageNo)
 				.queryParam("totalPageNo", this.ctr.getTotalPageNo());
 
 		if (this.ctr.getSearch() != null) {
-			uriComponents.queryParam("search", this.ctr.getSearch()).queryParam("keyword", ctr.getKeyword());
+			uriComponents.queryParam("search", this.ctr.getSearch()).queryParam("keyword", this.ctr.getKeyword());
 		}
 
 		return uriComponents.build().encode().toString();

@@ -54,22 +54,22 @@
 			<div class="d-flex justify-content-between align-items-center mb-2">
 				<!-- 검색 조건 -->
 				<div class="d-flex align-items-center">
-					<select id="searchCondition" name="condition"
-						class="form-select me-1">
+					<select id="searchType" class="form-select me-1 ">
 						<option value="">검색조건</option>
 						<option value="title">제목</option>
 						<option value="content">내용</option>
 						<option value="author">작성자</option>
 						<option value="title_content">제목+내용</option>
 					</select> <input type="text" name="query" placeholder="검색어를 입력하세요"
-						class="form-control w-auto me-2" value="${pageMaker.ctr.keyword}">
-					<button type="submit" class="btn btn-primary">Search</button>
+						id="keyword" class="form-control w-auto me-2"
+						value="${pageMaker.ctr.keyword}">
+					<button type="submit" id="searchBtn" class="btn btn-primary">Search</button>
 				</div>
 
 				<!-- 게시글 페이징 -->
 				<div class="d-flex align-items-center">
 					<!-- perPageNum의 값을 정하는 select 박스 -->
-					<label for="itemsLabel" class="me-2"><strong>페이지당
+					<label for="itemsPerPage" class="me-2"><strong>페이지당
 							항목 수:</strong></label> <select id="itemsPerPage" class="form-select w-auto">
 						<option value="10">10</option>
 						<option value="15">15</option>
@@ -137,7 +137,9 @@
 
 	<script>
 		$(function() {
-			setPerPageNumSelect();
+			setTotalPageSelect();
+
+			setSearchKeywordSelect();
 
 			var result = '${result}';
 			$(function() {
@@ -174,13 +176,13 @@
 				$('#page-next').addClass('disabled');
 			}
 
-			//현재 페이지 파란색으로 활성화
+			//현재 페이지 포인트 활성화
 			var thisPage = '${pageMaker.ctr.pageNo}';
 			$('#pageNo' + thisPage).addClass('active'); // 페이징 처리는 새로운 페이지로 넘어가기 때문에 따로 removeClass() 필요X
 		})
 
-		/* 버튼 설정 */
-		function setPerPageNumSelect() {
+		/* 페이징 함수 */
+		function setTotalPageSelect() {
 			var totalPageNum = '${pageMaker.ctr.totalPageNo}'; // 서버 데이터 반영
 			var thisPage = '${pageMaker.ctr.pageNo}'; // 현재 페이지
 			var $itemsPerPage = $('#itemsPerPage');
@@ -195,6 +197,37 @@
 				window.location.href = "pageList?pageNo=" + thisPage
 						+ "&totalPageNo=" + selectedValue;
 			})
+		}
+
+		function setSearchKeywordSelect() {
+			var $searchType = $('#searchType');
+			var $keyword = $('#keyword');
+
+			$searchType.val('${pageMaker.ctr.search}').prop("selected", true);
+			
+			$('#searchBtn').on(
+					'click',
+					function() {
+						var searchTypeStr = $searchType.val();
+						var keywordStr = $keyword.val();
+						
+						if (!searchType) {
+							alert("검색 조건을 입력하세요.");
+							$searchType.focus();
+							return;
+						} else if (!keyword) {
+							alert("검색어를 입력하세요!");
+							$('#keyword').focus();
+							return;
+						}
+
+						var url = "pageList?pageNo=1" + "&totalPageNo="
+								+ "${pageMaker.ctr.totalPageNo}"
+								+ "&search=" + searchTypeStr + "&keyword="
+								+ encodeURIComponent(keywordStr);
+
+						window.location.href = url;
+					})
 		}
 	</script>
 

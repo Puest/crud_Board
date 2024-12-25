@@ -68,7 +68,7 @@ public class Criteria {
 				.queryParam("totalPagesNo", this.totalPageNo);
 
 		if (search != null) {
-			uriComponents.queryParam("search", this.search).queryParam("keyworkd", this.keyword);
+			uriComponents.queryParam("search", this.search).queryParam("keyword", this.keyword);
 		}
 
 		return uriComponents.build().encode().toString();

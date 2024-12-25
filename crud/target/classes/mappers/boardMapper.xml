@@ -61,16 +61,16 @@
 
 	<sql id="searchCondition">
 		<if test="search != null">
-			<if test="search == title.toString()">
+			<if test="search == 'title'.toString()">
 				AND title LIKE CONCAT('%', #{keyword} ,'%')
 			</if>
-			<if test="search == content.toString()">
+			<if test="search == 'content'.toString()">
 				AND description LIKE CONCAT('%', #{keyword} ,'%')
 			</if>
-			<if test="search == author.toString()">
+			<if test="search == 'author'.toString()">
 				AND writer LIKE CONCAT('%', #{keyword} ,'%')
 			</if>
-			<if test="search == title_content.toString()">
+			<if test="search == 'title_content'.toString()">
 				AND (title LIKE CONCAT('%', #{keyword} ,'%')
 				OR description LIKE CONCAT('%', #{keyword} ,'%')
 			</if>
