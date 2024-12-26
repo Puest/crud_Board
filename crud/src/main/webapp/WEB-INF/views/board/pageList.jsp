@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page session="false"%>
 
 <!DOCTYPE html>
 <html>
@@ -104,6 +103,7 @@
 
 		<!-- 글 작성 버튼 -->
 		<div class="text-end">
+			<a href="pageList" class="btn btn-warning">처음으로</a>
 			<a href="register" class="btn btn-primary">새 글 작성</a>
 		</div>
 

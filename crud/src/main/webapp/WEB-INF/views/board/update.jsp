@@ -16,10 +16,12 @@
 		<!-- 수정 폼 -->
 		<form action="update" method="post">
 			<input type="hidden" name="board_no" value="${boardVO.board_no}">
-			
-			<!-- page와 perPageNum  추가 -->
+
+			<!-- page와 perPageNum & search와 keyword 추가 -->
 			<input type="hidden" name="pageNo" value="${ctr.pageNo}" /> <input
-				type="hidden" name="totalPageNo" value="${ctr.totalPageNo}" />
+				type="hidden" name="totalPageNo" value="${ctr.totalPageNo}" /> <input
+				type="hidden" name="search" value="${ctr.search}" /> <input
+				type="hidden" name="keyword" value="${ctr.keyword}" />
 
 			<div class="mb-3">
 				<label for="title" class="form-label">제목</label> <input type="text"

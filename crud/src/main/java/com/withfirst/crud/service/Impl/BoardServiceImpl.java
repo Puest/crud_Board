@@ -16,7 +16,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Inject
 	private BoardDAO boardDAO;
-
+	
 	@Override
 	public void create(BoardVO boardVO) throws Exception {
 		boardDAO.create(boardVO);

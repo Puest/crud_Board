@@ -13,11 +13,11 @@
 <body>
 	<div class="container mt-5">
 		<h2 class="mb-4 text-center">게시판 글 작성</h2>
-		<form role="form" method="post">
+		<form role="form" method="post" enctype="multipart/form-data">
 			<!-- page와 perPageNum  추가 -->
 			<input type="hidden" name="pageNo" value="${ctr.pageNo}" /> <input
 				type="hidden" name="totalPageNo" value="${ctr.totalPageNo}" />
-				
+
 			<!-- 제목 입력 -->
 			<div class="mb-3">
 				<label for="title" class="form-label">제목</label> <input type="text"
@@ -37,6 +37,12 @@
 				<label for="writer" class="form-label">작성자</label> <input
 					type="text" class="form-control" id="writer" name="writer"
 					value="${sessionScope.loginUser.username}" readonly>
+			</div>
+
+			<!-- 파일 업로드 -->
+			<div class="mb-3">
+				<label for="files" class="form-label">첨부파일</label> <input
+					class="form-control" type="file" id="files" name="files" multiple>
 			</div>
 
 			<!-- 버튼 -->

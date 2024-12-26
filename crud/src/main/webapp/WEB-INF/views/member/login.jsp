@@ -13,10 +13,6 @@
 	<div class="container mt-5">
 		<h2 class="h2 text-center mb-3">Login</h2>
 		<form role="form" method="post">
-			<!-- page와 perPageNum  추가 -->
-			<input type="hidden" name="pageNo" value="${ctr.pageNo}" /> <input
-				type="hidden" name="totalPageNo" value="${ctr.totalPageNo}" />
-
 			<div class="form-floating mb-3">
 				<input type="text" class="form-control" id="username"
 					name="username" placeholder="아이디"> <label for="username">아이디</label>
