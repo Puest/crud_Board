@@ -10,4 +10,6 @@ public interface FileDAO {
 	public List<FileVO> selectFile(int board_no);
 	
 	public void deleteFile(int file_id);
+	
+	public FileVO downloadFile(int file_id);
 }

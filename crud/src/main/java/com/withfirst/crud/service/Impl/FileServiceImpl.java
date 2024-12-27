@@ -23,12 +23,17 @@ public class FileServiceImpl implements FileService{
 
 	@Override
 	public List<FileVO> selectFile(int board_no) {
-		return selectFile(board_no);
+		return fileDAO.selectFile(board_no);
 	}
 
 	@Override
 	public void deleteFile(int file_id) {
 		fileDAO.deleteFile(file_id);
+	}
+
+	@Override
+	public FileVO downloadFile(int file_id) {
+		return fileDAO.downloadFile(file_id);
 	}
 
 }

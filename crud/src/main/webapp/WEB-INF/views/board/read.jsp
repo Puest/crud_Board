@@ -23,9 +23,9 @@
 		<!-- 게시글 정보 -->
 		<div class="card">
 			<div class="card-header">
-				<h4 id="post-title">제목:
-					${boardVO.title}</h4>
+				<h4 id="post-title">제목: ${boardVO.title}</h4>
 			</div>
+
 			<div class="card-body">
 				<!-- 작성자와 작성 시간 -->
 				<div class="mb-3">
@@ -38,6 +38,7 @@
 							pattern="yyyy-MM-dd HH:mm" timeZone="UTC" />
 					</p>
 				</div>
+
 				<!-- 게시글 내용 -->
 				<div class="mb-3">
 					<p>
@@ -46,9 +47,30 @@
 					<p>${boardVO.description}</p>
 				</div>
 
+				<hr>
+				<!-- 첨부 파일 목록 -->
+				<div class="mb-3">
+					<p>
+						<strong>파일 목록</strong>
+					</p>
+					<c:if test="${not empty fileList}">
+						<ul class="list-group">
+							<c:forEach var="file" items="${fileList}">
+								<li class="list-group-item"><a
+									href="#">${file.filename}(${file.file_size}KB)</a>
+								</li>
+							</c:forEach>
+						</ul>
+					</c:if>
+					<c:if test="${empty fileList}">
+						<p>첨부된 파일이 없습니다.</p>
+					</c:if>
+				</div>
+
 				<!-- 버튼 -->
 				<div class="text-end">
-					<c:if test="${sessionScope.loginUser.username eq boardVO.writer || sessionScope.loginUser.role eq 'admin'}">
+					<c:if
+						test="${sessionScope.loginUser.username eq boardVO.writer || sessionScope.loginUser.role eq 'admin'}">
 						<!-- 수정 버튼 -->
 						<a href="update${ctr.makerQuery()}&board_no=${boardVO.board_no}"
 							class="btn btn-warning">수정하기</a>
@@ -67,11 +89,13 @@
 		var result = '${result}';
 		//삭제 버튼 누르면 삭제할 것이냐고 묻고 삭제한다고 하면 주소이동(BoardController의 remove 메소드 호출)
 		$(function() {
-			$('#btn-remove').click(function() {
-				if (confirm("게시글을 삭제하시겠습니까?")) {
-					self.location.href = "delete${ctr.makerQuery()}&board_no=${boardVO.board_no}";
-				}
-			});
+			$('#btn-remove')
+					.click(
+							function() {
+								if (confirm("게시글을 삭제하시겠습니까?")) {
+									self.location.href = "delete${ctr.makerQuery()}&board_no=${boardVO.board_no}";
+								}
+							});
 
 			if (result === 'updateOK') {
 				$('#updateOK').removeClass('visually-hidden');

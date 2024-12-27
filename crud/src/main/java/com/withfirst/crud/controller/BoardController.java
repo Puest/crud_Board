@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,18 +52,19 @@ public class BoardController {
 	public String registerPOST(BoardVO boardVO, Criteria ctr, @RequestParam("files") MultipartFile[] files,
 			RedirectAttributes redirectAttributes) throws Exception {
 		logger.info("register POST...");
-		logger.info("BoardVO: " + boardVO.toString());
 
 		try {
 			// 게시글 등록 로직 호출
 			boardService.create(boardVO);
+
+			logger.info("Generated Board_no: " + boardVO.getBoard_no());
 
 			// 업로드 파일 처리
 			if (files != null && files.length > 0) {
 				for (MultipartFile file : files) {
 					if (!file.isEmpty()) {
 						// 파일 저장 경로 설정
-						String uploadFolder = "C:/upload/";
+						String uploadFolder = "D:/upload/";
 						File saveFile = new File(uploadFolder, file.getOriginalFilename());
 
 						// 파일 저장
@@ -70,9 +72,9 @@ public class BoardController {
 
 						// 파일 정보를 DB에 저장
 						FileVO fileVO = new FileVO();
-						fileVO.setBoard_no(boardVO.board_no);
+						fileVO.setBoard_no(boardVO.getBoard_no());
 						fileVO.setFilename(file.getOriginalFilename());
-						fileVO.setFile_size(file.getSize());
+						fileVO.setFile_size((int)(file.getSize() / 1024.0));
 						fileVO.setFile_path(saveFile.getAbsolutePath());
 
 						fileService.insertFile(fileVO);
@@ -106,8 +108,13 @@ public class BoardController {
 			throws Exception {
 		logger.info("Read GET...");
 
+		// 게시글 정보 가져오기
 		BoardVO boardVO = boardService.read(board_no);
 		model.addAttribute(boardVO);
+
+		// 파일 정보 가져오기
+		List<FileVO> fileList = fileService.selectFile(board_no);
+		model.addAttribute("fileList",fileList);
 	}
 
 	// 글 수정 처리 GET
@@ -194,7 +201,19 @@ public class BoardController {
 		pageMaker.setTotalPostCnt(totalCount);
 		model.addAttribute("pageMaker", pageMaker);
 	}
-
+	
+	@RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
+	public void donwloadFile(@RequestParam("file_id") int file_id) throws Exception {
+		// 파일 정보 가져오기
+		FileVO fileVO = fileService.downloadFile(file_id);
+		if(fileVO == null) {
+			ResponseEntity.notFound().build();
+		}
+		
+		// 파일 경로로 리소스 로드
+		
+	}
+	
 	// 로그아웃 처리
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logoutGET(HttpSession session) {

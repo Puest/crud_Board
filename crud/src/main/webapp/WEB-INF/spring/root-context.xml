@@ -41,4 +41,12 @@
 	<!-- 빈으로 등록 될 준비를 마친 클래스들을 base-package 기준으로 스캔하여, 빈으로 등록 -->
 	<context:component-scan base-package="com.withfirst.crud.service, com.withfirst.crud.dao" />
 	
+	<!-- 파일 업로드 처리 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 업로드 할 수 있는 파일의 최대 크기 설정 -->
+		<property name="maxUploadSize" value="1073700000" />
+		
+		<!-- 업로드 한 파일이 메모리에 보관될 최대 크기 --> 
+		<property name="maxInMemorySize" value="104857600" />
+	</bean>	
 </beans>

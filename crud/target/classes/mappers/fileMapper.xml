@@ -3,8 +3,8 @@
 <mapper namespace="FileMapper">
 	<!-- 첨부파일 등록 -->
 	<insert id="insertFile">
-		INSERT INTO(board_no, filename, file_path, file_size, upload_date)
-		VALUES(#{board_no}, #{filename}, #{file_path}, #{file_size}, #{upload_date});
+		INSERT INTO file(board_no, filename, file_path, file_size)
+		VALUES(#{board_no}, #{filename}, #{file_path}, #{file_size});
 	</insert>
 	
 	<!-- 첨부파일 조회 -->
@@ -18,5 +18,10 @@
 		DELETE FROM file
 		WHERE file_id = #{file_id};
 	</delete>
-
+	
+	<!-- 첨부파일 다운 -->
+	<select id="downloadFile" resultType="com.withfirst.crud.vo.FileVO">
+		SELECT * FROM file
+		WHERE file_id = #{file_id}
+	</select>
 </mapper>

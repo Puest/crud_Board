@@ -20,6 +20,7 @@ public class FileDAOImpl implements FileDAO {
 	private static String INSERTFILE = nameSpace + ".insertFile";
 	private static String SELECTFILE = nameSpace + ".selectFile";
 	private static String DELETEFILE = nameSpace + ".deleteFile";
+	private static String DOWNLOADFILE = nameSpace + ".downloadFile";
 	
 	@Override
 	public void insertFile(FileVO file) {
@@ -33,7 +34,12 @@ public class FileDAOImpl implements FileDAO {
 
 	@Override
 	public void deleteFile(int file_id) {
-		sqlSession.delete(DELETEFILE, "file_id");
+		sqlSession.delete(DELETEFILE, file_id);
+	}
+
+	@Override
+	public FileVO downloadFile(int file_id) {
+		return sqlSession.selectOne(DOWNLOADFILE, file_id);
 	}
 
 }

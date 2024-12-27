@@ -16,7 +16,7 @@
 	</select>
 
 	<!-- 게시글 작성 -->
-	<insert id="create">
+	<insert id="create" useGeneratedKeys="true" keyProperty="board_no">
 		INSERT INTO board(writer, title, description)
 		VALUES(#{writer}, #{title}, #{description})
 	</insert>
