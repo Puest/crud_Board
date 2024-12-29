@@ -57,7 +57,7 @@
 						<ul class="list-group">
 							<c:forEach var="file" items="${fileList}">
 								<li class="list-group-item"><a
-									href="#">${file.filename}(${file.file_size}KB)</a>
+									href="/board/downloadFile?file_id=${file.file_id}">${file.filename}(${file.file_size}KB)</a>
 								</li>
 							</c:forEach>
 						</ul>
