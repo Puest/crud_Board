@@ -47,14 +47,10 @@
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 업로드 할 수 있는 파일의 최대 크기 설정 -->
-		<property name="maxUploadSize" value="1073700000" />
+		<property name="maxUploadSize" value="100000000" />
 
 		<!-- 업로드 한 파일이 메모리에 보관될 최대 크기 -->
-		<property name="maxInMemorySize" value="104857600" />
+		<property name="maxInMemorySize" value="100000000" />
 	</bean>
 
-	<!-- 파일 업로드 디렉토리 설정  -->
-	<bean id="uploadPath" class="java.lang.String">
-		<constructor-arg value="D:\\upload" />
-	</bean>
 </beans>

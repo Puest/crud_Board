@@ -5,9 +5,10 @@ import java.sql.Timestamp;
 public class FileVO {
 	private int file_id;
 	private int board_no;
-	private String filename;
-	private String file_path;
+	private String org_file_name;
+	private String save_file_name;
 	private long file_size;
+	private String crea_id;
 	private Timestamp upload_date;
 
 	public int getFile_id() {
@@ -26,20 +27,20 @@ public class FileVO {
 		this.board_no = board_no;
 	}
 
-	public String getFilename() {
-		return filename;
+	public String getOrg_file_name() {
+		return org_file_name;
 	}
 
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public void setOrg_file_name(String org_file_name) {
+		this.org_file_name = org_file_name;
 	}
 
-	public String getFile_path() {
-		return file_path;
+	public String getSave_file_name() {
+		return save_file_name;
 	}
 
-	public void setFile_path(String file_path) {
-		this.file_path = file_path;
+	public void setSave_file_name(String save_file_name) {
+		this.save_file_name = save_file_name;
 	}
 
 	public long getFile_size() {
@@ -48,6 +49,14 @@ public class FileVO {
 
 	public void setFile_size(long file_size) {
 		this.file_size = file_size;
+	}
+
+	public String getCrea_id() {
+		return crea_id;
+	}
+
+	public void setCrea_id(String crea_id) {
+		this.crea_id = crea_id;
 	}
 
 	public Timestamp getUpload_date() {
@@ -60,8 +69,9 @@ public class FileVO {
 
 	@Override
 	public String toString() {
-		return "FileVO [file_id=" + file_id + ", board_no=" + board_no + ", filename=" + filename + ", file_path="
-				+ file_path + ", file_size=" + file_size + ", upload_date=" + upload_date + "]";
+		return "FileVO [file_id=" + file_id + ", board_no=" + board_no + ", org_file_name=" + org_file_name
+				+ ", save_file_name=" + save_file_name + ", file_size=" + file_size + ", crea_id=" + crea_id
+				+ ", upload_date=" + upload_date + "]";
 	}
-
+	
 }

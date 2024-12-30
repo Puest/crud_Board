@@ -2,6 +2,7 @@ package com.withfirst.crud.dao;
 
 import java.util.List;
 
+import com.withfirst.crud.file.FileUtils;
 import com.withfirst.crud.vo.FileVO;
 
 public interface FileDAO {

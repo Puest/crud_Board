@@ -28,11 +28,11 @@
 	<!-- java 공통패키지 -->
 	<context:component-scan
 		base-package="com.withfirst.crud.*" />
-
+	
 	<!-- Interceptor 빈 생성 -->
 	<beans:bean id="LoginInterceoter"
 		class="com.withfirst.crud.interceptor.LoginInterceptor" />
-
+	
 	<!-- Interceptor 등록/설정 -->
 	<interceptors>
 		<interceptor>
@@ -43,4 +43,9 @@
 			<beans:ref bean="LoginInterceoter" />
 		</interceptor>
 	</interceptors>
+	
+	<!-- 파일 업로드 디렉토리 설정  -->
+	<beans:bean id="uploadPath" class="java.lang.String">
+		<beans:constructor-arg value="D:\upload\" />
+	</beans:bean>
 </beans:beans>

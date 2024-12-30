@@ -3,24 +3,27 @@
 <mapper namespace="FileMapper">
 	<!-- 첨부파일 등록 -->
 	<insert id="insertFile">
-		INSERT INTO file(board_no, filename, file_path, file_size)
-		VALUES(#{board_no}, #{filename}, #{file_path}, #{file_size});
+		INSERT INTO file(board_no, crea_id, org_file_name, save_file_name, file_size)
+		VALUES(#{board_no}, #{crea_id},#{org_file_name},
+		#{save_file_name}, #{file_size});
 	</insert>
-	
+
 	<!-- 첨부파일 조회 -->
-	<select id="selectFile" resultType="com.withfirst.crud.vo.FileVO">
+	<select id="selectFile"
+		resultType="com.withfirst.crud.vo.FileVO">
 		SELECT * FROM file
 		WHERE board_no = #{board_no};
 	</select>
-	
+
 	<!-- 첨부파일 삭제 -->
 	<delete id="deleteFile">
 		DELETE FROM file
 		WHERE file_id = #{file_id};
 	</delete>
-	
+
 	<!-- 첨부파일 다운 -->
-	<select id="downloadFile" resultType="com.withfirst.crud.vo.FileVO">
+	<select id="downloadFile"
+		resultType="com.withfirst.crud.vo.FileVO">
 		SELECT * FROM file
 		WHERE file_id = #{file_id}
 	</select>

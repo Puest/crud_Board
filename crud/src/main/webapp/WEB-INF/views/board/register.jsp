@@ -62,8 +62,6 @@ CSS
 				</div>
 				<button type="button" class="btn btn-primary btn-sm"
 					onclick="addFileField()">+ 파일 추가</button>
-				<input type="file" id="hidden-file-input" name="files" multiple
-					style="display: none;" onchange="handleFileSelect(event)" />
 			</div>
 
 			<!-- 버튼 -->
@@ -77,42 +75,18 @@ CSS
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<script type="text/javascript">
 		function addFileField() {
-			document.getElementById('hidden-file-input').click();
-		}
-		
-		function handleFileSelect(event) {
 			const fileList = document.getElementById('file-list');
-			Array.from(event.target.files).forEach((file) => {
-				// 파일 이름 변수에 저장
-				var fileName = file.name;
-				
-				// div 생성
-				const fileItem = document.createElement('div');
-				fileItem.className = 'd-flex align-items-center mb-2';
-				
-				// span과 버튼을 추가
-		        const span = document.createElement('span');
-		        span.className = 'me-2';
-		        span.textContent = fileName; // span에 파일 이름 추가
-
-		        const deleteButton = document.createElement('button');
-		        deleteButton.type = 'button';
-		        deleteButton.className = 'btn btn-danger btn-sm';
-		        deleteButton.textContent = '삭제';
-		        deleteButton.onclick = function () {
-		        	deleteFileItem(this);
-		        };
-		        
-		        fileItem.appendChild(span);
-		        fileItem.appendChild(deleteButton);
-		        
-				fileList.appendChild(fileItem);
-			});
-			event.target.value = ''; // 파일 선택 초기화
+			const fileItem = document.createElement('div');
+			fileItem.className = 'd-flex align-items-center mb-2';
+			fileItem.innerHTML = `
+				<input type="file" name="files" class="form-control me-2" />
+				<button type="button" class="btn btn-danger btn-sm" onclick="deleteFileField(this)">삭제</button>
+			`;
+			fileList.appendChild(fileItem);
 		}
 
 
-		function deleteFileItem(button) {
+		function deleteFileField(button) {
 			const fileItem = button.parentElement;
 			fileItem.remove();
 		}

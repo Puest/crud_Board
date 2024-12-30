@@ -1,18 +1,12 @@
 package com.withfirst.crud.controller;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.URLEncoder;
-import java.nio.file.Files;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.withfirst.crud.file.FileUtils;
 import com.withfirst.crud.paging.Criteria;
 import com.withfirst.crud.paging.PageMaker;
 import com.withfirst.crud.service.BoardService;
@@ -54,69 +48,32 @@ public class BoardController {
 
 	// 글 작성 POST
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ModelAndView registerPOST(BoardVO boardVO, Criteria ctr, @RequestParam("files") MultipartFile[] files,
-			RedirectAttributes redirectAttributes) throws Exception {
-		ModelAndView mav = new ModelAndView("redirect:/board/pageList");
+	public String registerPOST(BoardVO boardVO, Criteria ctr, FileUtils fileUtils,
+			@RequestParam("files") MultipartFile[] files, RedirectAttributes redirectAttributes) throws Exception {
 
 		logger.info("register POST...");
 
-		try {
-			// 게시글 등록 로직 호출
-			boardService.create(boardVO);
+		// 게시글 등록 로직 호출
+		boardService.create(boardVO);
 
-			logger.info("Generated Board_no: " + boardVO.getBoard_no());
+		logger.info("Generated Board_no: " + boardVO.getBoard_no());
 
-			// 업로드 파일 처리
-			for (int i = 0; i < files.length; i++) {
-				logger.info("============ File Test ============");
-				logger.info("파일 이름: "+ files[i].getName());
-				logger.info("파일 실제 이름: "+ files[i].getOriginalFilename());
-				logger.info("파일 크기: "+ files[i].getSize());
-				logger.info("Content Type: "+ files[i].getContentType());
-				logger.info("============ File END ============");
-			}	
-//			if (files != null && files.length > 0) {
-//				for (MultipartFile file : files) {
-//					if (!file.isEmpty()) {
-//						// 파일 저장 경로 설정
-//						String uploadFolder = "D:/upload/";
-//						File saveFile = new File(uploadFolder, file.getOriginalFilename());
-//
-//						// 파일 저장
-//						file.transferTo(saveFile);
-//
-//						// 파일 정보를 DB에 저장
-//						FileVO fileVO = new FileVO();
-//						fileVO.setBoard_no(boardVO.getBoard_no());
-//						fileVO.setFilename(file.getOriginalFilename());
-//						fileVO.setFile_size((int) (file.getSize() / 1024.0));
-//						fileVO.setFile_path(saveFile.getAbsolutePath());
-//
-//						fileService.insertFile(fileVO);
-//					}
-//				}
-//			}
+		// FileUtils를 통해 파일 처리 및 정보를 가져옴
+		List<FileVO> fileDetails = fileUtils.parseFileInfo(boardVO.board_no, boardVO.writer, files);
 
-			redirectAttributes.addFlashAttribute("result", "registerOK");
-		} catch (Exception e) {
-			logger.info("Error POST: ", e);
+		// FileService를 통해 DB에 저장
+		for (FileVO file : fileDetails) {
+			fileService.insertFile(file);
 		}
+		
+		// 게시글 등록 메시지 처리
+		redirectAttributes.addFlashAttribute("result", "registerOK");
 
 		redirectAttributes.addAttribute("pageNo", 1); // 등록 시 첫 페이지로 이동
 		redirectAttributes.addAttribute("totalPageNo", ctr.getTotalPageNo());
 
-		return mav;
-
+		return "redirect:/board/pageList";
 	}
-
-	// 게시글 전체 페이지 GET
-	/*
-	 * @RequestMapping(value = "/allList", method = RequestMethod.GET) public void
-	 * listAll(Model model) throws Exception { logger.info("show all list");
-	 * 
-	 * List<BoardVO> members = boardService.allList();
-	 * model.addAttribute("memberList", members); }
-	 */
 
 	// 글 조회 처리 GET
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
@@ -216,29 +173,6 @@ public class BoardController {
 
 		pageMaker.setTotalPostCnt(totalCount);
 		model.addAttribute("pageMaker", pageMaker);
-	}
-
-	@RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-	public void donwloadFile(@RequestParam("file_id") int file_id, HttpServletResponse response) throws Exception {
-
-		// 파일 정보 가져오기
-		FileVO fileVO = fileService.downloadFile(file_id);
-
-		// 파일 경로 검증 및 객체 생성
-		File file = new File(fileVO.getFile_path());
-
-		// 파일 확장자 MIME 타입 설정
-		String mimeType = Files.probeContentType(file.toPath());
-		logger.info("mimeType: ", mimeType);
-		response.setContentType(mimeType != null ? mimeType : "application/octet-stream");
-
-		// Content-Disposition 설정 (파일명 인코딩)
-		String encodedFileName = URLEncoder.encode(fileVO.getFilename(), "UTF-8").replace("+", "%20");
-		response.setHeader("Content-Disposition", "attachment; filename=\"" + encodedFileName + "\"");
-
-		// 파일 전송
-		Files.copy(file.toPath(), response.getOutputStream());
-		response.getOutputStream().flush();
 	}
 
 	// 로그아웃 처리

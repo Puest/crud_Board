@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.withfirst.crud.dao.FileDAO;
+import com.withfirst.crud.file.FileUtils;
 import com.withfirst.crud.vo.FileVO;
 
 @Repository
