@@ -17,8 +17,7 @@ import com.withfirst.crud.vo.FileVO;
 public class FileUtils {
 	private Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
-	@Inject
-	private String uploadPath;
+	private String uploadPath = "D:\\upload\\";
 
 	public List<FileVO> parseFileInfo(int board_no, String username, MultipartFile[] files) throws Exception {
 		logger.info("uploadPath: " + uploadPath);

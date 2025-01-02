@@ -115,7 +115,14 @@ public class BoardController {
 		logger.info("update POST...");
 		boardService.update(boardVO);
 		redirectAttributes.addFlashAttribute("result", "updateOK");
-
+		
+		// 삭제할 파일 처리
+		
+		
+		
+		// 새로운 파일 처리
+		
+		
 		// 페이지 위치 유지를 위한 정보
 		redirectAttributes.addAttribute("pageNo", ctr.getPageNo());
 		redirectAttributes.addAttribute("totalPageNo", ctr.getTotalPageNo());
