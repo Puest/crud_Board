@@ -9,18 +9,6 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-
-<style type="text/css">
-//
-CSS
-.input-files {
-	padding: 6px 25px;
-	background-color: #FF6600;
-	border-radius: 4px;
-	color: white;
-	cursor: pointer;
-}
-</style>
 </head>
 <body>
 	<div class="container mt-5">
@@ -67,7 +55,7 @@ CSS
 			<!-- 버튼 -->
 			<div class="text-center">
 				<button type="submit" class="btn btn-primary">등록</button>
-				<a href="pageList" class="btn btn-secondary"> 취소</a>
+				<a href="pageList${ctr.makerQuery()}" class="btn btn-secondary"> 취소</a>
 			</div>
 		</form>
 	</div>

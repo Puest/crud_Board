@@ -38,7 +38,7 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public void delete(Integer seq) throws Exception {
-		sqlSession.delete(deleteMember, seq);
+	public void delete(Integer user_id) throws Exception {
+		sqlSession.delete(deleteMember, user_id);
 	}
 }

@@ -11,6 +11,9 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+	rel="stylesheet">
 </head>
 <body>
 	<div class="container mt-5">
@@ -57,7 +60,7 @@
 						<ul class="list-group">
 							<c:forEach var="file" items="${fileList}">
 								<li class="list-group-item"><a
-									href="/downloadFile?file_id=${file.file_id}">${file.org_file_name}(${file.file_size}KB)</a>
+									href="/downloadFile?file_id=${file.file_id}"><i class="bi bi-save me-2"></i>${file.org_file_name}(${file.file_size}KB)</a>
 								</li>
 							</c:forEach>
 						</ul>

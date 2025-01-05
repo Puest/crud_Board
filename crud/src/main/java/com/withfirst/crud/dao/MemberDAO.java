@@ -12,6 +12,6 @@ public interface MemberDAO {
 	
 	public List<MemberVO> allList();
 	
-	public void delete(Integer seq) throws Exception;
+	public void delete(Integer user_id) throws Exception;
 	
 }

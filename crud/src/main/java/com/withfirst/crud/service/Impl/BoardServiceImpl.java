@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.withfirst.crud.dao.BoardDAO;
 import com.withfirst.crud.paging.Criteria;
@@ -16,7 +17,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Inject
 	private BoardDAO boardDAO;
-	
+
+	@Transactional()
 	@Override
 	public void create(BoardVO boardVO) throws Exception {
 		boardDAO.create(boardVO);
@@ -27,11 +29,13 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.read(board_no);
 	}
 
+	@Transactional()
 	@Override
 	public void update(BoardVO boardVO) throws Exception {
 		boardDAO.update(boardVO);
 	}
 
+	@Transactional()
 	@Override
 	public void delete(Integer board_no) throws Exception {
 		boardDAO.delete(board_no);
@@ -40,21 +44,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> allList() throws Exception {
 		return boardDAO.allList();
-	}
-
-	@Override
-	public void increase(String writer) throws Exception {
-		boardDAO.increase(writer);
-	}
-
-	@Override
-	public void decrease(String writer) throws Exception {
-		boardDAO.decrease(writer);
-	}
-
-	@Override
-	public List<BoardVO> postList(String writer) throws Exception {
-		return boardDAO.postList(writer);
 	}
 
 	@Override

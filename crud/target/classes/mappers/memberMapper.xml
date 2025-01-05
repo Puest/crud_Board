@@ -21,6 +21,8 @@
 	<!-- 회원 삭제 -->
 	<delete id="delete">
 		DELETE FROM user
-		WHERE seq = #{seq}
+		WHERE user_id = #{user_id}
 	</delete>
+	
+	
 </mapper>

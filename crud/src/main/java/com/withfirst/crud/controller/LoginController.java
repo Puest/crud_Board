@@ -55,6 +55,7 @@ public class LoginController {
 
 			if (urlPriorLogin != null) {
 				session.removeAttribute("url_prior_login"); // 원래 페이지로 리다이렉트
+				return "redirect:" + urlPriorLogin; // 원래 페이지로 리다이렉트
 			}
 			
 			redirectAttributes.addAttribute("pageNo", 1); // 등록 시 첫 페이지로 이동

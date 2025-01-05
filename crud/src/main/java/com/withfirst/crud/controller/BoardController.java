@@ -49,7 +49,8 @@ public class BoardController {
 	// 글 작성 POST
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerPOST(BoardVO boardVO, Criteria ctr, FileUtils fileUtils,
-			@RequestParam("files") MultipartFile[] files, RedirectAttributes redirectAttributes) throws Exception {
+			@RequestParam(value = "files", required = false) MultipartFile[] files,
+			RedirectAttributes redirectAttributes) throws Exception {
 
 		logger.info("register POST...");
 
@@ -65,7 +66,7 @@ public class BoardController {
 		for (FileVO file : fileDetails) {
 			fileService.insertFile(file);
 		}
-		
+
 		// 게시글 등록 메시지 처리
 		redirectAttributes.addFlashAttribute("result", "registerOK");
 
@@ -95,15 +96,21 @@ public class BoardController {
 	public String updateGET(@RequestParam("board_no") Integer board_no, @ModelAttribute("ctr") Criteria ctr,
 			HttpSession session, Model model, RedirectAttributes redirectAttributes) throws Exception {
 		logger.info("update GET");
+
+		// 게시글 정보 수정
 		BoardVO boardVO = boardService.read(board_no);
-		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 
 		// 권한 확인: 로그인 사용자와 작성자가 다를 경우 접근 차단
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 		if (loginUser == null
 				|| (!boardVO.getWriter().equals(loginUser.getUsername()) && !loginUser.getRole().equals("admin"))) {
 			redirectAttributes.addFlashAttribute("result", "updateNO");
 			return "redirect:/board/pageList";
 		}
+
+		// 파일 정보 추가
+		List<FileVO> fileList = fileService.selectFile(board_no);
+		model.addAttribute("fileList", fileList);
 
 		model.addAttribute(boardVO);
 		return "/board/update";
@@ -111,18 +118,31 @@ public class BoardController {
 
 	// 글 수정 처리 POST
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updatePOST(BoardVO boardVO, Criteria ctr, RedirectAttributes redirectAttributes) throws Exception {
+	public String updatePOST(BoardVO boardVO, Criteria ctr, FileUtils fileUtils,
+			@RequestParam(value = "files", required = false) MultipartFile[] files,
+			@RequestParam(value = "deleteFiles", required = false) List<Integer> deleteFiles,
+			RedirectAttributes redirectAttributes) throws Exception {
 		logger.info("update POST...");
+
+		// 게시글 정보 저장
 		boardService.update(boardVO);
 		redirectAttributes.addFlashAttribute("result", "updateOK");
-		
-		// 삭제할 파일 처리
-		
-		
-		
-		// 새로운 파일 처리
-		
-		
+
+		// 기존 파일 삭제
+		if (deleteFiles != null && !deleteFiles.isEmpty()) {
+			for (Integer file_id : deleteFiles) {
+				fileService.deleteFile(file_id);
+			}
+		}
+
+		// 새로운 파일 추가
+		if (files != null && files.length > 0) {
+			List<FileVO> fileDetails = fileUtils.parseFileInfo(boardVO.board_no, boardVO.writer, files);
+			for (FileVO file : fileDetails) {
+				fileService.insertFile(file);
+			}
+		}
+
 		// 페이지 위치 유지를 위한 정보
 		redirectAttributes.addAttribute("pageNo", ctr.getPageNo());
 		redirectAttributes.addAttribute("totalPageNo", ctr.getTotalPageNo());

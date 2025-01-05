@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.withfirst.crud.dao.MemberDAO;
 import com.withfirst.crud.service.LoginService;
@@ -16,7 +17,8 @@ public class LoginServiceImpl implements LoginService {
 
 	@Inject
 	MemberDAO memberDAO;
-
+	
+	@Transactional()
 	@Override
 	public void create(MemberVO memberVO) {
 		memberDAO.create(memberVO);
@@ -32,9 +34,10 @@ public class LoginServiceImpl implements LoginService {
 	public List<MemberVO> allList() throws Exception {
 		return memberDAO.allList();
 	}
-
+	
+	@Transactional()
 	@Override
-	public void delete(Integer seq) throws Exception {
-		memberDAO.delete(seq);
+	public void delete(Integer user_id) throws Exception {
+		memberDAO.delete(user_id);
 	}
 }

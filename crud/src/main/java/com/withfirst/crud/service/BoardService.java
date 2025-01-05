@@ -17,12 +17,6 @@ public interface BoardService {
 
 	public List<BoardVO> allList() throws Exception;
 	
-	public void increase(String writer) throws Exception;
-
-	public void decrease(String writer) throws Exception;
-	
-	public List<BoardVO> postList(String writer) throws Exception;
-	
 	public List<BoardVO> pageList(Criteria ctr) throws Exception;
 	
 	public int totalCount(Criteria ctr) throws Exception;

@@ -13,5 +13,5 @@ public interface LoginService {
 
 	public List<MemberVO> allList() throws Exception;
 
-	public void delete(Integer seq) throws Exception;
+	public void delete(Integer user_id) throws Exception;
 }

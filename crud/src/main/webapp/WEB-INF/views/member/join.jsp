@@ -43,7 +43,7 @@
 							placeholder="이름" required>
 					</div>
 
-					<button type="submit" class="btn btn-primary w-100">회원가입</button>
+					<button type="submit" class="btn btn-primary w-100 mb-2">회원가입</button>
 				</form>
 
 				<p>
