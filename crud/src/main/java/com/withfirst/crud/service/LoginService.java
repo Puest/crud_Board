@@ -2,6 +2,7 @@ package com.withfirst.crud.service;
 
 import java.util.List;
 
+import com.withfirst.crud.paging.Criteria;
 import com.withfirst.crud.vo.MemberVO;
 
 public interface LoginService {
@@ -14,4 +15,8 @@ public interface LoginService {
 	public List<MemberVO> allList() throws Exception;
 
 	public void delete(Integer user_id) throws Exception;
+	
+	public List<MemberVO> memberList(Criteria ctr) throws Exception;
+	
+	public int totalCount(Criteria ctr) throws Exception;
 }

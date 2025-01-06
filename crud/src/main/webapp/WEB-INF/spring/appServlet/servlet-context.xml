@@ -48,4 +48,4 @@
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg value="D:\upload\" />
 	</beans:bean>
-</beans:beans>
+</beans:beans> 

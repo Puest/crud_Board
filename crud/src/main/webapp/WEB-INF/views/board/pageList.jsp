@@ -25,6 +25,12 @@
 					환영합니다.</span>
 			</c:if>
 		</div>
+		<c:if test="${sessionScope.loginUser.role eq 'admin'}">
+			<div>
+				<!-- 관리자 페이지로 이동 버튼 -->
+				<a href="/admin/members" class="btn btn-primary btn-sm me-2">관리자</a>
+			</div>
+		</c:if>
 		<div>
 			<!-- 로그아웃 버튼 -->
 			<c:if test="${not empty sessionScope.loginUser}">
@@ -47,7 +53,6 @@
 			role="alert">수정 권한이 없습니다.</div>
 		<div id="removeNO" class="alert alert-danger visually-hidden"
 			role="alert">삭제 권한이 없습니다.</div>
-
 
 		<div class="row">
 			<div class="d-flex justify-content-between align-items-center mb-2">
@@ -103,8 +108,8 @@
 
 		<!-- 글 작성 버튼 -->
 		<div class="text-end">
-			<a href="pageList" class="btn btn-warning">처음으로</a>
-			<a href="register" class="btn btn-primary">새 글 작성</a>
+			<a href="pageList" class="btn btn-warning">처음으로</a> <a
+				href="register" class="btn btn-primary">새 글 작성</a>
 		</div>
 
 		<!-- 페이지네이션 -->
@@ -204,13 +209,13 @@
 			var $keyword = $('#keyword');
 
 			$searchType.val('${pageMaker.ctr.search}').prop("selected", true);
-			
+
 			$('#searchBtn').on(
 					'click',
 					function() {
 						var searchTypeStr = $searchType.val();
 						var keywordStr = $keyword.val();
-						
+
 						if (!searchType) {
 							alert("검색 조건을 입력하세요.");
 							$searchType.focus();
@@ -222,8 +227,8 @@
 						}
 
 						var url = "pageList?pageNo=1" + "&totalPageNo="
-								+ "${pageMaker.ctr.totalPageNo}"
-								+ "&search=" + searchTypeStr + "&keyword="
+								+ "${pageMaker.ctr.totalPageNo}" + "&search="
+								+ searchTypeStr + "&keyword="
 								+ encodeURIComponent(keywordStr);
 
 						window.location.href = url;

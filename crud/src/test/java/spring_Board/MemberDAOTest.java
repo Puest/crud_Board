@@ -31,7 +31,7 @@ public class MemberDAOTest {
 	@Test
 	public void selectMembertTest() throws Exception {
 		MemberVO memberVO = memberDAO.read("Kamo");
-		System.out.println(memberVO.getSeq() + " / " + memberVO.getUsername() + " / " + memberVO.getPassword() + " / "
+		System.out.println(memberVO.getUser_id() + " / " + memberVO.getUsername() + " / " + memberVO.getPassword() + " / "
 				+ memberVO.getEmail());
 	}
 

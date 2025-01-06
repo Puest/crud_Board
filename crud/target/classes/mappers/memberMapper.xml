@@ -6,23 +6,60 @@
 		INSERT INTO user(username, password, email, name)
 		VALUES(#{username}, #{password}, #{email}, #{name})
 	</insert>
-	
+
 	<!-- 회원 조회 -->
 	<select id="read" resultType="com.withfirst.crud.vo.MemberVO">
 		SELECT * FROM user
-		WHERE username = #{username}
+		WHERE username =
+		#{username}
 	</select>
-	
+
 	<!-- 회원 전체 조회 -->
 	<select id="readAll" resultType="com.withfirst.crud.vo.MemberVO">
 		SELECT * FROM user
 	</select>
-	
+
 	<!-- 회원 삭제 -->
 	<delete id="delete">
 		DELETE FROM user
 		WHERE user_id = #{user_id}
 	</delete>
-	
-	
+
+	<!-- 페이지 별 게시판 조회 -->
+	<sql id="searchCondition">
+		<if test="search != null">
+			<if test="search == 'title'.toString()">
+				AND title LIKE CONCAT('%', #{keyword} ,'%')
+			</if>
+			<if test="search == 'content'.toString()">
+				AND description LIKE CONCAT('%', #{keyword} ,'%')
+			</if>
+			<if test="search == 'author'.toString()">
+				AND writer LIKE CONCAT('%', #{keyword} ,'%')
+			</if>
+			<if test="search == 'title_content'.toString()">
+				AND (title LIKE CONCAT('%', #{keyword} ,'%')
+				OR
+				description LIKE CONCAT('%', #{keyword} ,'%'))
+			</if>
+		</if>
+	</sql>
+
+	<select id="memberList"
+		resultType="com.withfirst.crud.vo.MemberVO">
+		SELECT * FROM user
+		WHERE user_id > 0
+		<include refid="searchCondition"></include>
+		ORDER BY user_id DESC, updated_at DESC
+		LIMIT #{startPage},
+		#{totalPageNo}
+	</select>
+
+	<!-- 게시글 개수 조회 -->
+	<select id="totalCount" resultType="int">
+		SELECT COUNT(user_id)
+		FROM user
+		WHERE user_id > 0
+		<include refid="searchCondition"></include>
+	</select>
 </mapper>

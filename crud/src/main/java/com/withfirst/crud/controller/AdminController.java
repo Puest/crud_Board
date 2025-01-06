@@ -1,5 +1,6 @@
 package com.withfirst.crud.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,15 +33,22 @@ public class AdminController {
 
 	@Inject
 	private BoardService boardService;
-	
+
 //	회원 관리 페이지
 	// 회원 관리 처리 GET
 	@RequestMapping(value = "/members", method = RequestMethod.GET)
-	public void membersGET(Model model) throws Exception {
+	public void membersGET(Criteria ctr, Model model) throws Exception {
 		logger.info("Admin-members GET...");
 
-		List<MemberVO> members = loginService.allList();
+		List<MemberVO> members = loginService.memberList(ctr);
 		model.addAttribute("memberList", members);
+
+		PageMaker pageMaker = new PageMaker(ctr);
+
+		int totalCount = loginService.totalCount(ctr);
+
+		pageMaker.setTotalPostCnt(totalCount);
+		model.addAttribute("pageMaker", pageMaker);
 	}
 
 	// 회원 삭제 처리 GET
@@ -56,22 +64,51 @@ public class AdminController {
 		return "redirect:/admin/members";
 	}
 
-	
 // 회원 게시글 관리 페이지
+	// 게시글 내용 자르기 메서드
+	private String getShortDescription(String description, int wordLimit) {
+		if (description == null || description.isEmpty())
+			return "";
+
+		if (description.length() <= wordLimit) {
+			return description; // 길이가 10자 이하인 경우 그대로 반환
+		}
+
+		return description.substring(0, wordLimit) + "...";
+	}
+
 	@RequestMapping(value = "/posts", method = RequestMethod.GET)
-    public void managePosts(Criteria ctr, Model model) throws Exception {
+	public void postsGET(Criteria ctr, Model model) throws Exception {
 		logger.info("Admin-members-posts GET...");
-		
+
 		List<BoardVO> posts = boardService.pageList(ctr);
+
+		// 게시글 내용 앞 10단어까지만 가져오도록 처리
+		for (BoardVO post : posts) {
+			post.setDescription(getShortDescription(post.getDescription(), 10));
+		}
+
 		model.addAttribute("postList", posts);
-		
+
 		PageMaker pageMaker = new PageMaker(ctr);
 
 		int totalCount = boardService.totalCount(ctr);
 
 		pageMaker.setTotalPostCnt(totalCount);
 		model.addAttribute("pageMaker", pageMaker);
-    }
-	
-	
+	} 
+
+	// 게시글 삭제 처리 GET
+	@RequestMapping(value = "/deletePosts", method = RequestMethod.GET)
+	public String removePostsGET(@RequestParam("board_no") Integer board_no, RedirectAttributes redirectAttributes)
+			throws Exception {
+		logger.info("removePosts GET...");
+
+		// 삭제 로직 호출
+		boardService.delete(board_no);
+		redirectAttributes.addFlashAttribute("success", "removeOK");
+
+		return "redirect:/admin/posts";
+	}
+
 }

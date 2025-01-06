@@ -23,7 +23,8 @@ public class BoardServiceImpl implements BoardService {
 	public void create(BoardVO boardVO) throws Exception {
 		boardDAO.create(boardVO);
 	}
-
+	
+	@Transactional(readOnly = true)
 	@Override
 	public BoardVO read(Integer board_no) throws Exception {
 		return boardDAO.read(board_no);
@@ -41,16 +42,19 @@ public class BoardServiceImpl implements BoardService {
 		boardDAO.delete(board_no);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<BoardVO> allList() throws Exception {
 		return boardDAO.allList();
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<BoardVO> pageList(Criteria ctr) throws Exception {
 		return boardDAO.pageList(ctr);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public int totalCount(Criteria ctr) throws Exception {
 		return boardDAO.totalCount(ctr);

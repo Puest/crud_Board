@@ -23,6 +23,7 @@ public class FileServiceImpl implements FileService{
 		fileDAO.insertFile(file);
 	}
 	
+	@Transactional(readOnly = true)
 	@Override
 	public List<FileVO> selectFile(int board_no) {
 		return fileDAO.selectFile(board_no);
@@ -34,6 +35,7 @@ public class FileServiceImpl implements FileService{
 		fileDAO.deleteFile(file_id);
 	}
 	
+	@Transactional(readOnly = true)
 	@Override
 	public FileVO downloadFile(int file_id) {
 		return fileDAO.downloadFile(file_id);

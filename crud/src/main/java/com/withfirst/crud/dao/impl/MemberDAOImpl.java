@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.withfirst.crud.dao.MemberDAO;
+import com.withfirst.crud.paging.Criteria;
 import com.withfirst.crud.vo.MemberVO;
 
 @Repository
@@ -21,7 +22,9 @@ public class MemberDAOImpl implements MemberDAO {
 	private static String SelectMember = NameSpace + ".read";
 	private static String SelectAllMember = NameSpace + ".readAll";
 	private static String deleteMember = NameSpace + ".delete";
-
+	private static String MEMBERLIST = NameSpace + ".memberList";
+	private static String TOTALCOUNT = NameSpace + ".totalCount";
+	
 	@Override
 	public void create(MemberVO memberVO) {
 		sqlSession.insert(InsertMember, memberVO);
@@ -41,4 +44,16 @@ public class MemberDAOImpl implements MemberDAO {
 	public void delete(Integer user_id) throws Exception {
 		sqlSession.delete(deleteMember, user_id);
 	}
+
+	@Override
+	public List<MemberVO> memberList(Criteria ctr) throws Exception {
+		return sqlSession.selectList(MEMBERLIST, ctr);
+	}
+
+	@Override
+	public int totalCount(Criteria ctr) throws Exception {
+		return sqlSession.selectOne(TOTALCOUNT, ctr);
+	}
+	
+	
 }

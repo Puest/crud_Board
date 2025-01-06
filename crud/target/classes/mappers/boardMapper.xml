@@ -27,7 +27,8 @@
 		DELETE FROM board
 		WHERE board_no = #{board_no}
 	</delete>
-
+	
+	<!-- 페이지 별  게시판 조회 -->
 	<sql id="searchCondition">
 		<if test="search != null">
 			<if test="search == 'title'.toString()">
@@ -45,8 +46,7 @@
 			</if>
 		</if>
 	</sql>
-
-	<!-- 페이지 별  게시판 조회 -->
+	
 	<select id="pageList" resultType="com.withfirst.crud.vo.BoardVO">
 		SELECT * FROM board
 		WHERE
